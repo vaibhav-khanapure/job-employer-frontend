@@ -17,7 +17,7 @@ const Auth = () => {
                 <p className="text-zinc-600">{formTitle?.subtitle}</p>
             </div>
 
-            {formType === 'login' && <Login />}
+            {formType === 'login' && <Login handleChangeForm={(type: AuthFormType) => setFormType(type)} />}
         </div>
     );
 };

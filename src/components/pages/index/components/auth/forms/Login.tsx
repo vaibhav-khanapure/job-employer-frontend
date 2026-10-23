@@ -1,7 +1,12 @@
 import { useState } from "react";
 import GoogleSignInButton from "../components/GoogleSignInButton";
+import type { AuthFormType } from "../../../types/auth.types";
 
-const Login = () => {
+interface Props {
+    handleChangeForm: (type: AuthFormType) => void;
+};
+
+const Login = ({ handleChangeForm }: Props) => {
     const [showPassword, setShowPassword] = useState(false);
 
     return (
@@ -22,7 +27,10 @@ const Login = () => {
             <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                     <label htmlFor="password" className="label">Password</label>
-                    <span className="label cursor-pointer text-gray-400 hover:text-primary hover:underline">
+                    <span
+                        className="label cursor-pointer text-gray-400 hover:text-primary hover:underline"
+                        onClick={() => handleChangeForm("forgot")}
+                    >
                         Forgot Password?
                     </span>
                 </div>
@@ -61,6 +69,16 @@ const Login = () => {
             </div>
 
             <GoogleSignInButton />
+
+            <p className="text-sm text-center text-gray-400">
+                New here?{' '}
+                <span
+                    onClick={() => handleChangeForm('register')}
+                    className="label cursor-pointer underline text-gray-800 hover:text-primary"
+                >
+                    Create an account
+                </span>
+            </p>
 
         </form>
     );
