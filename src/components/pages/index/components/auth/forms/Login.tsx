@@ -1,8 +1,68 @@
-import React from 'react'
+import { useState } from "react";
+import GoogleSignInButton from "../components/GoogleSignInButton";
 
 const Login = () => {
+    const [showPassword, setShowPassword] = useState(false);
+
     return (
-        <form>Login</form>
+        <form className="flex flex-col gap-5">
+
+            <div className="flex flex-col gap-2">
+                <label htmlFor="email" className="label">Email Address</label>
+                <input
+                    autoComplete="email"
+                    className="input"
+                    id="email"
+                    placeholder="you@gmail.com"
+                    required
+                    type="email"
+                />
+            </div>
+
+            <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                    <label htmlFor="password" className="label">Password</label>
+                    <span className="label cursor-pointer text-gray-400 hover:text-primary hover:underline">
+                        Forgot Password?
+                    </span>
+                </div>
+
+                <div className="relative overflow-hidden">
+                    <input
+                        autoComplete="current-password"
+                        className="input pr-20"
+                        id="password"
+                        placeholder="Enter your password"
+                        required
+                        type={showPassword ? "text" : "password"}
+                    />
+
+                    <button
+                        type="button"
+                        className="absolute inset-y-0 right-3 text-sm font-semibold text-gray-500 transition-colors hover:text-primary"
+                        onClick={() => setShowPassword(prev => !prev)}
+                    >
+                        {showPassword ? 'Hide' : 'Show'}
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit" className="btn">
+                Sign In
+                <span aria-hidden="true"> →</span>
+            </button>
+
+            <div className="flex items-center gap-4">
+                <hr className="flex-1 border-0 border-t border-gray-200" />
+                <span className="text-sm tracking-wider text-gray-400">
+                    or
+                </span>
+                <hr className="flex-1 border-0 border-t border-gray-200" />
+            </div>
+
+            <GoogleSignInButton />
+
+        </form>
     );
 };
 
