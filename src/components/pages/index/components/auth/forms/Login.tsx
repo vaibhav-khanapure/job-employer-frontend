@@ -107,10 +107,10 @@ const Login = ({ handleChangeForm }: Props) => {
 
             {error && <FormError message={error?.message} />}
 
-            <button type="submit" className="btn" disabled={!isPending}>
-                {!isPending ? <Loaders.Spinner className="size-2" /> : (
+            <button type="submit" className="btn" disabled={isPending}>
+                {isPending ? <Loaders.Spinner className="size-2" /> : (
                     <Fragment>
-                        Sign In
+                        Sign In &nbsp;
                         <span aria-hidden="true"> →</span>
                     </Fragment>
                 )}

@@ -5,7 +5,7 @@
   --foreground: #171717;
 
   --brand-primary: #111;
-  --color-error: #E02802;
+  --brand-error: #E02802;
 
   /* --brand-primary: #2563eb; */
 }
@@ -15,7 +15,9 @@
   --color-foreground: var(--foreground);
 
   --color-primary: var(--brand-primary);
-  --color-error: var(--color-error) --font-sans: var(--font-outfit);
+  --color-error: var(--brand-error);
+
+  --font-sans: var(--font-outfit);
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -48,7 +50,6 @@ button:disabled {
 
   .btn {
     @apply p-3 text-sm rounded-md w-full flex justify-center border-none text-white bg-primary disabled:cursor-not-allowed disabled:opacity-80;
-    ;
   }
 
   .label {
