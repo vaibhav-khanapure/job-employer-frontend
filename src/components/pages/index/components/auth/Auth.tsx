@@ -4,6 +4,7 @@ import { useState } from "react";
 import authFormTitles from "../../data/authFormTitles";
 import type { AuthFormType } from "../../types/auth.types";
 import Login from "./forms/Login";
+import Register from "./forms/Register";
 
 const Auth = () => {
     const [formType, setFormType] = useState<AuthFormType>('login');
@@ -18,6 +19,9 @@ const Auth = () => {
             </div>
 
             {formType === 'login' && <Login handleChangeForm={(type: AuthFormType) => setFormType(type)} />}
+
+            {formType === 'register' && <Register handleChangeForm={(type: AuthFormType) => setFormType(type)} />}
+
         </div>
     );
 };

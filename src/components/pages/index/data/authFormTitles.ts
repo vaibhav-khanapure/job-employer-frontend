@@ -3,28 +3,28 @@ import type { AuthFormTitle } from "../types/auth.types";
 const authFormTitles: AuthFormTitle[] = [
     {
         type: "login",
-        title: "Sign in",
-        subtitle: "Sign in to continue exploring jobs and manage your applications.",
+        title: "Welcome back",
+        subtitle: "Sign in to manage your hiring activities, review candidates, and grow your team.",
     },
     {
         type: "register",
         title: "Create your account",
-        subtitle: "Join us to discover jobs, apply with ease, and track your career journey.",
+        subtitle: "Set up your company profile and start connecting with qualified candidates.",
     },
     {
         type: "forgot",
         title: "Forgot your password?",
-        subtitle: "Enter your email address and we'll send you a verification code to reset your password.",
+        subtitle: "Enter your registered email address and we'll send you a verification code to reset your password.",
     },
     {
         type: "verify",
-        title: "Verify your email",
-        subtitle: "Enter the verification code we sent to your email to continue.",
+        title: "Verify your email address",
+        subtitle: "Enter the verification code sent to your email to verify your account and continue.",
     },
     {
         type: "reset",
-        title: "Create new password",
-        subtitle: "Choose a strong password to secure your account and regain access.",
+        title: "Set a new password",
+        subtitle: "Choose a strong password to keep your employer account secure.",
     },
 ];
 

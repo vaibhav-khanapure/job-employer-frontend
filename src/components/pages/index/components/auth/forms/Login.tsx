@@ -1,11 +1,9 @@
 import { Fragment, type SubmitEvent, useState } from "react";
-import GoogleSignInButton from "../components/GoogleSignInButton";
 import type { AuthFormType } from "../../../types/auth.types";
 import { useMutation } from "@tanstack/react-query";
 import API from "@/src/lib/API";
 import FormError from "@/src/components/common/errors/FormError";
 import toast from "@/src/lib/toast";
-import loginSchema from "@/src/validationSchemas/auth/loginSchema";
 import useSchemaValidator from "@/src/hooks/useSchemaValidator";
 import useAuthStore from "@/src/store/authStore";
 import useUserStore from "@/src/store/userStore";
@@ -13,6 +11,8 @@ import { useRouter } from "next/navigation";
 import TextInput from "@/src/components/common/inputs/TextInput";
 import PasswordInput from "@/src/components/common/inputs/PasswordInput";
 import Loaders from "@/src/components/common/loaders/loaders";
+import validationSchemas from "@/src/validationSchemas/validationSchema";
+import GoogleSignInButton from "../components/GoogleSignInButton";
 
 interface Props {
     handleChangeForm: (type: AuthFormType) => void;
@@ -26,7 +26,7 @@ const Login = ({ handleChangeForm }: Props) => {
 
     const { replace } = useRouter();
 
-    const { errors, handleValidateSchema } = useSchemaValidator(loginSchema, user);
+    const { errors, handleValidateSchema } = useSchemaValidator(validationSchemas.auth.login, user);
 
     const { error, isPending, mutate } = useMutation({
         mutationFn: async (values: typeof user) => {
@@ -116,7 +116,7 @@ const Login = ({ handleChangeForm }: Props) => {
                 )}
             </button>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 -my-1">
                 <hr className="flex-1 border-0 border-t border-gray-200" />
                 <span className="text-sm tracking-wider text-gray-400">
                     or
