@@ -1,5 +1,5 @@
 import { type ChangeEvent, Fragment, KeyboardEvent, type SubmitEvent, useEffect, useRef, useState } from "react";
-import { AuthFormType } from "../../../types/auth.types";
+import type { AuthFormType } from "../../../types/auth.types";
 import { useRouter } from "next/navigation";
 import useSchemaValidator from "@/src/hooks/useSchemaValidator";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
@@ -22,7 +22,7 @@ const RegisterConfirm = ({ email, handleChangeForm }: Props) => {
 
     const { replace } = useRouter();
 
-    const { errors, handleValidateSchema } = useSchemaValidator(validationSchemas.auth.reisterConfirm, {
+    const { errors, handleValidateSchema } = useSchemaValidator(validationSchemas.auth.registerConfirm, {
         email,
         code: code.join("")
     });
@@ -34,7 +34,7 @@ const RegisterConfirm = ({ email, handleChangeForm }: Props) => {
     }, [inputRefs]);
 
     const { error, isPending, mutate } = useMutation({
-        mutationFn: async (values: {code: string; email: string}) => {
+        mutationFn: async (values: { code: string; email: string }) => {
             const { data } = await API.post("/auth/register-confirm", values);
             return data;
         },
@@ -120,7 +120,7 @@ const RegisterConfirm = ({ email, handleChangeForm }: Props) => {
             <p className="text-sm text-center text-gray-400">
                 Already have an account?{' '}
                 <span
-                    onClick={() => handleChangeForm('login')}
+                    onClick={() => handleChangeForm("login")}
                     className="label cursor-pointer underline text-gray-800 hover:text-primary"
                 >
                     Sign In

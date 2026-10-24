@@ -124,7 +124,7 @@ const Register = ({ handleChangeForm, handleUpdateEmail }: Props) => {
             <p className="text-sm text-center text-gray-400">
                 Already have an account?{' '}
                 <span
-                    onClick={() => handleChangeForm('login')}
+                    onClick={() => handleChangeForm("login")}
                     className="label cursor-pointer underline text-gray-800 hover:text-primary"
                 >
                     Sign In

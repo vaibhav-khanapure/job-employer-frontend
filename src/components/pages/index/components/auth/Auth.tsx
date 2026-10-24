@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import authFormTitles from "../../data/authFormTitles";
@@ -6,15 +6,16 @@ import type { AuthFormType } from "../../types/auth.types";
 import Login from "./forms/Login";
 import Register from "./forms/Register";
 import RegisterConfirm from "./forms/RegisterConfirm";
+import ForgotPassword from "./forms/ForgotPassword";
 
 const Auth = () => {
     const [email, setEmail] = useState("");
-    const [formType, setFormType] = useState<AuthFormType>("verify");
+    const [formType, setFormType] = useState<AuthFormType>("login");
 
     const formTitle = authFormTitles.find(form => form.type === formType);
 
     const handleChangeForm = (type: AuthFormType) => {
-        setEmail("");
+        // setEmail("");
         setFormType(type);
     };
 
@@ -36,6 +37,14 @@ const Auth = () => {
             )}
 
             {formType === "verify" && <RegisterConfirm email={email} handleChangeForm={handleChangeForm} />}
+
+            {formType === "forgot" && (
+                <ForgotPassword
+                    handleChangeForm={handleChangeForm}
+                    handleUpdateEmail={(email: string) => setEmail(email)}
+                />
+            )}
+
 
         </div>
     );

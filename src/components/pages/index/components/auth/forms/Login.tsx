@@ -129,7 +129,7 @@ const Login = ({ handleChangeForm }: Props) => {
             <p className="text-sm text-center text-gray-400">
                 New here?{' '}
                 <span
-                    onClick={() => handleChangeForm('register')}
+                    onClick={() => handleChangeForm("register")}
                     className="label cursor-pointer underline text-gray-800 hover:text-primary"
                 >
                     Create account
