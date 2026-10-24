@@ -8,7 +8,7 @@ interface Props {
     children: ReactNode;
 };
 
-const AppProvider = ({ children }: Props) => {
+const ReactQueryProvider = ({ children }: Props) => {
     const queryClient = new QueryClient();
 
     return (
@@ -19,4 +19,4 @@ const AppProvider = ({ children }: Props) => {
     );
 };
 
-export default AppProvider;
+export default ReactQueryProvider;

@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 import APP from "../constants/app";
-import AppProvider from "../components/hoc/providers/AppProvider";
+import AppProviders from "../components/hoc/providers/AppProviders";
+import Toast from "../components/common/toast/Toast";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -19,9 +20,11 @@ const RootLayout = ({ children }: LayoutProps<"/">) => {
   return (
     <html lang="en" className={`${outfit.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <AppProvider>
+        <Toast />
+
+        <AppProviders>
           {children}
-        </AppProvider>
+        </AppProviders>
       </body>
     </html>
   );
