@@ -18,7 +18,7 @@ const authFormTitles: AuthFormTitle[] = [
     },
     {
         type: "verify",
-        title: "Verify your email address",
+        title: "Verify your account",
         subtitle: "Enter the verification code sent to your email to verify your account and continue.",
     },
     {

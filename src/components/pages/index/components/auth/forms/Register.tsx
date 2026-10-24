@@ -15,9 +15,10 @@ import Loaders from "@/src/components/common/loaders/loaders";
 
 interface Props {
     handleChangeForm: (type: AuthFormType) => void;
+    handleUpdateEmail: (email: string) => void;
 };
 
-const Register = ({ handleChangeForm }: Props) => {
+const Register = ({ handleChangeForm, handleUpdateEmail }: Props) => {
     const [user, setUser] = useState({
         company: "",
         email: "",
@@ -31,12 +32,15 @@ const Register = ({ handleChangeForm }: Props) => {
 
     const { error, isPending, mutate } = useMutation({
         mutationFn: async (values: typeof user) => {
-            const { data } = await API.post("/auth/login", values);
+            const { data } = await API.post("/auth/register", values);
             return data;
         },
         onError: (error) => toast.error(error?.errorMessage),
         onSuccess: (data, values) => {
 
+
+            handleUpdateEmail(values?.email);
+            handleChangeForm("verify");
         }
     });
 
