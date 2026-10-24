@@ -1,6 +1,6 @@
-import { type ZodSchema, ZodError } from "zod/v3";
+import { type ZodType, ZodError } from "zod";
 
-const schemaValidator = <T>(schema: ZodSchema<T>, data: unknown) => {
+const schemaValidator = <T>(schema: ZodType<T>, data: unknown) => {
     try {
         const result = schema.parse(data);
 

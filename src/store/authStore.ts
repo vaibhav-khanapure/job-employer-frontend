@@ -8,7 +8,7 @@ const initialState: AuthStoreState = {
 const useAuthStore = create<AuthStoreTypes>((set) => ({
     ...initialState,
 
-    resetState: () => set(initialState)
+    resetState: () => set({ ...initialState })
 }));
 
 export default useAuthStore;

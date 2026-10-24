@@ -29,7 +29,7 @@ const useToastStore = create<ToastStoreTypes>((set, get) => ({
         }));
     },
 
-    resetState: () => set({ messages: [] }),
+    resetState: () => set({ ...initialState }),
 }));
 
 export default useToastStore;

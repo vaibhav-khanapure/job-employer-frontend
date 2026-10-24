@@ -4,6 +4,13 @@ import type { AuthFormType } from "../../../types/auth.types";
 import { useMutation } from "@tanstack/react-query";
 import API from "@/src/lib/API";
 import FormError from "@/src/components/common/errors/FormError";
+import toast from "@/src/lib/toast";
+import loginSchema from "@/src/validationSchemas/auth/loginSchema";
+import useSchemaValidator from "@/src/hooks/useSchemaValidator";
+import useAuthStore from "@/src/store/authStore";
+import useUserStore from "@/src/store/userStore";
+import { useRouter } from "next/navigation";
+import TextInput from "@/src/components/common/inputs/TextInput";
 
 interface Props {
     handleChangeForm: (type: AuthFormType) => void;
@@ -16,10 +23,41 @@ const Login = ({ handleChangeForm }: Props) => {
         password: ""
     });
 
+    const { replace } = useRouter();
+
+    const { errors, handleValidateSchema } = useSchemaValidator(loginSchema, user);
+
     const { error, isPending, mutate } = useMutation({
-        mutationFn: (data) => API.post("/auth/login", data),
-        // onError: () => 
-        // onSuccess: 
+        mutationFn: async (values: typeof user) => {
+            const { data } = await API.post("/auth/login", values);
+            return data;
+        },
+        onError: (error) => toast.error(error?.errorMessage),
+        onSuccess: (data, values) => {
+            const { accessToken, name } = data;
+
+            if (!accessToken) {
+                toast.error("Something went wrong, please try again");
+                return;
+            };
+
+            useAuthStore.setState({
+                accessToken,
+                isAuth: true,
+                shouldRegenerateAccessToken: true
+            });
+
+            useUserStore.setState({
+                name,
+                email: values?.email
+            });
+
+            localStorage.setItem('sha-log', '1');
+
+            toast.success("Logged in successfully");
+
+            replace("/home");
+        }
     });
 
     const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
@@ -27,25 +65,26 @@ const Login = ({ handleChangeForm }: Props) => {
 
         if (isPending) return;
 
-        
+        const { success, data } = handleValidateSchema();
+
+        if (success && data) {
+            mutate(data);
+        };
     };
 
     return (
-        <form className="flex flex-col gap-5">
+        <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
 
-            <div className="flex flex-col gap-2">
-                <label htmlFor="email" className="label">Email Address</label>
-                <input
-                    autoComplete="email"
-                    className="input"
-                    id="email"
-                    onChange={e => setUser(prev => ({ ...prev, email: e.target.value }))}
-                    placeholder="you@gmail.com"
-                    required
-                    value={user.email}
-                    type="email"
-                />
-            </div>
+            <TextInput
+                label="Email Address"
+                error={errors?.email}
+                autoComplete="email"
+                placeholder="you@gmail.com"
+                required
+                value={user.email}
+                type="email"
+                onChange={e => setUser(prev => ({ ...prev, email: e.target.value }))}
+            />
 
             <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">

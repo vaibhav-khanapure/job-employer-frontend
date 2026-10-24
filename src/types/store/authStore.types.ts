@@ -1,6 +1,7 @@
 export interface AuthStoreState {
     isAuth: boolean;
     accessToken?: string;
+    shouldRegenerateAccessToken?: boolean;
 };
 
 export interface AuthStoreActions {
