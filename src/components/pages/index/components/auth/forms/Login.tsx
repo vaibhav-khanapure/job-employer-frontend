@@ -11,13 +11,13 @@ import useAuthStore from "@/src/store/authStore";
 import useUserStore from "@/src/store/userStore";
 import { useRouter } from "next/navigation";
 import TextInput from "@/src/components/common/inputs/TextInput";
+import PasswordInput from "@/src/components/common/inputs/PasswordInput";
 
 interface Props {
     handleChangeForm: (type: AuthFormType) => void;
 };
 
 const Login = ({ handleChangeForm }: Props) => {
-    const [showPassword, setShowPassword] = useState(false);
     const [user, setUser] = useState({
         email: "",
         password: ""
@@ -86,38 +86,23 @@ const Login = ({ handleChangeForm }: Props) => {
                 onChange={e => setUser(prev => ({ ...prev, email: e.target.value }))}
             />
 
-            <div className="flex flex-col gap-2">
-                <div className="flex items-center justify-between">
-                    <label htmlFor="password" className="label">Password</label>
+            <PasswordInput
+                label="Password"
+                error={errors?.password}
+                autoComplete="current-password"
+                placeholder="Enter your password"
+                required
+                value={user.password}
+                onChange={e => setUser(prev => ({ ...prev, password: e.target.value }))}
+                LabelRightComponent={() => (
                     <span
                         className="label cursor-pointer text-gray-400 hover:text-primary hover:underline"
                         onClick={() => handleChangeForm("forgot")}
                     >
                         Forgot Password?
                     </span>
-                </div>
-
-                <div className="relative overflow-hidden">
-                    <input
-                        autoComplete="current-password"
-                        className="input pr-20"
-                        id="password"
-                        onChange={e => setUser(prev => ({ ...prev, password: e.target.value }))}
-                        placeholder="Enter your password"
-                        required
-                        value={user.password}
-                        type={showPassword ? "text" : "password"}
-                    />
-
-                    <button
-                        type="button"
-                        className="absolute inset-y-0 right-3 text-sm font-semibold text-gray-500 transition-colors hover:text-primary"
-                        onClick={() => setShowPassword(prev => !prev)}
-                    >
-                        {showPassword ? 'Hide' : 'Show'}
-                    </button>
-                </div>
-            </div>
+                )}
+            />
 
             {error && <FormError message={error?.message} />}
 
