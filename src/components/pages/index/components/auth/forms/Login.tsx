@@ -1,6 +1,9 @@
 import { type SubmitEvent, useState } from "react";
 import GoogleSignInButton from "../components/GoogleSignInButton";
 import type { AuthFormType } from "../../../types/auth.types";
+import { useMutation } from "@tanstack/react-query";
+import API from "@/src/lib/API";
+import FormError from "@/src/components/common/errors/FormError";
 
 interface Props {
     handleChangeForm: (type: AuthFormType) => void;
@@ -13,10 +16,18 @@ const Login = ({ handleChangeForm }: Props) => {
         password: ""
     });
 
-    // const {}
+    const { error, isPending, mutate } = useMutation({
+        mutationFn: (data) => API.post("/auth/login", data),
+        // onError: () => 
+        // onSuccess: 
+    });
 
     const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (isPending) return;
+
+        
     };
 
     return (
@@ -68,6 +79,8 @@ const Login = ({ handleChangeForm }: Props) => {
                     </button>
                 </div>
             </div>
+
+            {error && <FormError message={error?.message} />}
 
             <button type="submit" className="btn">
                 Sign In

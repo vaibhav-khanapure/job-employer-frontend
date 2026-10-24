@@ -18,7 +18,7 @@ if (!result.success) {
     );
 };
 
-const serverEnv = {
+const SERVER_ENV = {
     GOOGLE_AUTH_CLIENT_ID: result.data.GOOGLE_AUTH_CLIENT_ID,
     GOOGLE_AUTH_SECRET_ID: result.data.GOOGLE_AUTH_SECRET_ID,
     NEXTAUTH_URL: result.data.NEXTAUTH_URL,
@@ -27,4 +27,4 @@ const serverEnv = {
     PORT: result.data.PORT,
 };
 
-export default serverEnv;
+export default SERVER_ENV;

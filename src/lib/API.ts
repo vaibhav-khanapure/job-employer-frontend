@@ -1,9 +1,9 @@
 import axios from "axios";
 import useAuthStore from "../store/authStore";
-import ENV from "../constants/env/env";
+import CLIENT_ENV from "../constants/env/clientEnv";
 
 const API = axios.create({
-    baseURL: ENV.client.API_URL,
+    baseURL: CLIENT_ENV.API_URL,
     withCredentials: false
 });
 

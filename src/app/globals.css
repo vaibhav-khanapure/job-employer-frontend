@@ -5,6 +5,8 @@
   --foreground: #171717;
 
   --brand-primary: #111;
+  --color-error: #E02802;
+
   /* --brand-primary: #2563eb; */
 }
 
@@ -13,6 +15,7 @@
   --color-foreground: var(--foreground);
 
   --color-primary: var(--brand-primary);
+  --color-error: var(--color-error)
 
   --font-sans: var(--font-outfit);
 }
