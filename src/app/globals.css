@@ -15,9 +15,7 @@
   --color-foreground: var(--foreground);
 
   --color-primary: var(--brand-primary);
-  --color-error: var(--color-error)
-
-  --font-sans: var(--font-outfit);
+  --color-error: var(--color-error) --font-sans: var(--font-outfit);
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -35,6 +33,12 @@ body {
 
 button {
   cursor: pointer;
+  text-align: center;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
 }
 
 @layer components {
@@ -43,7 +47,8 @@ button {
   }
 
   .btn {
-    @apply p-3 text-sm rounded-md w-full border-none text-white bg-primary;
+    @apply p-3 text-sm rounded-md w-full flex justify-center border-none text-white bg-primary disabled:cursor-not-allowed disabled:opacity-80;
+    ;
   }
 
   .label {

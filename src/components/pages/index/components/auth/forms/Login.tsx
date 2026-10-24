@@ -1,4 +1,4 @@
-import { type SubmitEvent, useState } from "react";
+import { Fragment, type SubmitEvent, useState } from "react";
 import GoogleSignInButton from "../components/GoogleSignInButton";
 import type { AuthFormType } from "../../../types/auth.types";
 import { useMutation } from "@tanstack/react-query";
@@ -12,6 +12,7 @@ import useUserStore from "@/src/store/userStore";
 import { useRouter } from "next/navigation";
 import TextInput from "@/src/components/common/inputs/TextInput";
 import PasswordInput from "@/src/components/common/inputs/PasswordInput";
+import Loaders from "@/src/components/common/loaders/loaders";
 
 interface Props {
     handleChangeForm: (type: AuthFormType) => void;
@@ -106,9 +107,13 @@ const Login = ({ handleChangeForm }: Props) => {
 
             {error && <FormError message={error?.message} />}
 
-            <button type="submit" className="btn">
-                Sign In
-                <span aria-hidden="true"> →</span>
+            <button type="submit" className="btn" disabled={!isPending}>
+                {!isPending ? <Loaders.Spinner className="size-2" /> : (
+                    <Fragment>
+                        Sign In
+                        <span aria-hidden="true"> →</span>
+                    </Fragment>
+                )}
             </button>
 
             <div className="flex items-center gap-4">
@@ -127,7 +132,7 @@ const Login = ({ handleChangeForm }: Props) => {
                     onClick={() => handleChangeForm('register')}
                     className="label cursor-pointer underline text-gray-800 hover:text-primary"
                 >
-                    Create an account
+                    Create account
                 </span>
             </p>
 
