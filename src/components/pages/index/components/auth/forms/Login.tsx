@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { type SubmitEvent, useState } from "react";
 import GoogleSignInButton from "../components/GoogleSignInButton";
 import type { AuthFormType } from "../../../types/auth.types";
 
@@ -8,6 +8,16 @@ interface Props {
 
 const Login = ({ handleChangeForm }: Props) => {
     const [showPassword, setShowPassword] = useState(false);
+    const [user, setUser] = useState({
+        email: "",
+        password: ""
+    });
+
+    // const {}
+
+    const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
+        e.preventDefault();
+    };
 
     return (
         <form className="flex flex-col gap-5">
@@ -18,8 +28,10 @@ const Login = ({ handleChangeForm }: Props) => {
                     autoComplete="email"
                     className="input"
                     id="email"
+                    onChange={e => setUser(prev => ({ ...prev, email: e.target.value }))}
                     placeholder="you@gmail.com"
                     required
+                    value={user.email}
                     type="email"
                 />
             </div>
@@ -40,8 +52,10 @@ const Login = ({ handleChangeForm }: Props) => {
                         autoComplete="current-password"
                         className="input pr-20"
                         id="password"
+                        onChange={e => setUser(prev => ({ ...prev, password: e.target.value }))}
                         placeholder="Enter your password"
                         required
+                        value={user.password}
                         type={showPassword ? "text" : "password"}
                     />
 
