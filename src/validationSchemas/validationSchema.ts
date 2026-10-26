@@ -1,7 +1,11 @@
+import apiSchemas from "./api/apiSchemas";
 import authSchemas from "./auth/authSchemas";
 
 const validationSchemas = {
-    auth: authSchemas
+    api: apiSchemas,
+
+    // Client
+    auth: authSchemas,
 };
 
 export default validationSchemas;

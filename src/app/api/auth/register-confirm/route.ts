@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
 
-        const { success, data: values, errors } = schemaValidator(validationSchemas.auth.registerConfirm, body);
+        const { success, data: values, errors } = schemaValidator(validationSchemas.api.auth.registerConfirm, body);
 
         if (!success) {
             return NextResponse.json(

@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
 
         const { data } = await serverAPI.post("/auth/login", values);
 
-        const { name, accessToken, refreshToken } = data;
+        const { name, role, accessToken, refreshToken } = data;
 
         if (!accessToken || !refreshToken) {
             return NextResponse.json({ message: "Invalid email or password" }, { status: 401 });
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
             secure: SERVER_ENV.APP_ENV !== "local",
         });
 
-        return NextResponse.json({ name, accessToken }, { status: 200 });
+        return NextResponse.json({ accessToken, role, name }, { status: 200 });
 
     } catch (error) {
         return NextResponse.json({ message: "Server error occurred" }, { status: 500 });
