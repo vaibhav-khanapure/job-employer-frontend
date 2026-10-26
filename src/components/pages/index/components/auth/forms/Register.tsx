@@ -38,9 +38,8 @@ const Register = ({ handleChangeForm, handleUpdateEmail }: Props) => {
         onError: (error) => toast.error(error?.errorMessage),
         onSuccess: (data, values) => {
 
-
             handleUpdateEmail(values?.email);
-            handleChangeForm("verify");
+            handleChangeForm("register-confirm");
         }
     });
 

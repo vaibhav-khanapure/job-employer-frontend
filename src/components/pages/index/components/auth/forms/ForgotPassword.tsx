@@ -27,7 +27,7 @@ const ForgotPassword = ({ handleChangeForm, handleUpdateEmail }: Props) => {
         onError: (error) => toast.error(error?.errorMessage),
         onSuccess: (_, email) => {
             handleUpdateEmail(email);
-            handleChangeForm("reset");
+            handleChangeForm("reset-password");
         }
     });
 

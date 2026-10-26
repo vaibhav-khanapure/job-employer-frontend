@@ -1,9 +1,9 @@
 export type AuthFormType =
     | "login"
     | "register"
-    | "forgot"
-    | "verify"
-    | "reset";
+    | "register-confirm"
+    | "forgot-password"
+    | "reset-password";
 
 export interface AuthFormTitle {
     type: AuthFormType;

@@ -11,7 +11,7 @@ const registerConfirmSchema = z.object({
         .toUpperCase()
         .regex(/^[A-Z0-9]{6}$/, {
             error: "Verification code must contain only uppercase letters and numbers",
-        }),
+        })
 });
 
 export default registerConfirmSchema;

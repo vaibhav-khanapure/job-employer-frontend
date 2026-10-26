@@ -10,7 +10,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
     LabelRightComponent?: () => JSX.Element;
 };
 
-const PasswordInput = ({ label, error, className, ref, LabelRightComponent, ...props }: Props) => {
+const PasswordInput = ({ label, error, className, ref, maxLength = 30, LabelRightComponent, ...props }: Props) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const inputId = useId();
@@ -18,7 +18,7 @@ const PasswordInput = ({ label, error, className, ref, LabelRightComponent, ...p
     return (
         <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between">
-                {label && <label htmlFor="password" className="label">Password</label>}
+                {label && <label htmlFor="password" className="label">{label || "Password"}</label>}
                 {LabelRightComponent && <LabelRightComponent />}
             </div>
 
@@ -27,6 +27,7 @@ const PasswordInput = ({ label, error, className, ref, LabelRightComponent, ...p
                     className={`input pr-20 ${className}`}
                     id={inputId}
                     ref={ref}
+                    maxLength={maxLength}
                     type={showPassword ? "text" : "password"}
                     {...props}
                 />

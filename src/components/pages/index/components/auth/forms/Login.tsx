@@ -98,7 +98,7 @@ const Login = ({ handleChangeForm }: Props) => {
                 LabelRightComponent={() => (
                     <span
                         className="label cursor-pointer text-gray-400 hover:text-primary hover:underline"
-                        onClick={() => handleChangeForm("forgot")}
+                        onClick={() => handleChangeForm("forgot-password")}
                     >
                         Forgot Password?
                     </span>
