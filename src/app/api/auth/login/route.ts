@@ -18,7 +18,22 @@ export async function POST(request: NextRequest) {
             );
         };
 
-        const { data, status } = await serverAPI.post("/auth/login", values);
+        const clientIp =
+            request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+            request.headers.get("x-real-ip");
+
+        const userAgent = request.headers.get("user-agent");
+
+        const { data, status } = await serverAPI.post(
+            "/auth/login",
+            values,
+            {
+                headers: {
+                    "x-client-ip": clientIp,
+                    "x-client-user-agent": userAgent,
+                }
+            }
+        );
 
         const { name, role, accessToken, refreshToken } = data;
 

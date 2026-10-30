@@ -2,21 +2,33 @@ import COOKIES from "@/src/constants/cookies";
 import SERVER_ENV from "@/src/constants/env/serverEnv";
 import serverAPI from "@/src/lib/serverAPI";
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
-export async function POST() {
+export async function POST(request: NextRequest) {
     try {
         const cookieStore = await cookies();
 
-        const currentRefreshToken = cookieStore.get("user-ref");
+        const currentRefreshToken = cookieStore.get(COOKIES.AUTH.REFRESH_TOKEN);
 
         if (!currentRefreshToken) {
             return NextResponse.json({ message: "Unauthorized" }, { status: 500 });
         };
 
-        const { data, status } = await serverAPI.post("/auth/verify", {
-            refreshToken: currentRefreshToken
-        });
+        const clientIp =
+            request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+            request.headers.get("x-real-ip");
+
+        const userAgent = request.headers.get("user-agent");
+
+        const { data, status } = await serverAPI.post(
+            "/auth/verify",
+            { refreshToken: currentRefreshToken },
+            {
+                headers: {
+                    "x-client-ip": clientIp,
+                    "x-client-user-agent": userAgent,
+                }
+            });
 
         const { name, role, accessToken, refreshToken } = data;
 

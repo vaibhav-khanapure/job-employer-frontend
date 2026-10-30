@@ -24,10 +24,22 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ message: "Session expired" }, { status: 400 });
         };
 
-        const { data, status } = await serverAPI.post("/auth/google", {
-            clientIp,
-            code: googleCode?.value
-        });
+        const userAgent = request.headers.get("user-agent");
+
+        const { data, status } = await serverAPI.post(
+            "/auth/google",
+            { code: googleCode?.value },
+            {
+                headers: {
+                    "x-client-ip": clientIp,
+                    "x-client-user-agent": userAgent,
+                }
+            }
+        );
+
+        if (status === 204) {
+            return NextResponse.json(null, { status });
+        };
 
         const { name, role, accessToken, refreshToken } = data;
 

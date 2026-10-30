@@ -1,5 +1,4 @@
 import COOKIES from "@/src/constants/cookies";
-import SERVER_ENV from "@/src/constants/env/serverEnv";
 import serverAPI from "@/src/lib/serverAPI";
 import schemaValidator from "@/src/utils/validators/schemaValidator";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
@@ -19,7 +18,22 @@ export async function POST(request: NextRequest) {
             );
         };
 
-        const { data, status } = await serverAPI.post("/auth/register-confirm", values);
+        const clientIp =
+            request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+            request.headers.get("x-real-ip");
+
+        const userAgent = request.headers.get("user-agent");
+
+        const { data, status } = await serverAPI.post(
+            "/auth/register-confirm",
+            values,
+            {
+                headers: {
+                    "x-client-ip": clientIp,
+                    "x-client-user-agent": userAgent,
+                }
+            }
+        );
 
         const { accessToken, refreshToken } = data;
 
@@ -34,7 +48,7 @@ export async function POST(request: NextRequest) {
             path: "/",
             maxAge: 60 * 60 * 24 * 30,
             sameSite: "lax",
-            secure: SERVER_ENV.APP_ENV !== "local",
+            secure: process.env.NODE_ENV === "production",
         });
 
         return NextResponse.json({ accessToken }, { status });
