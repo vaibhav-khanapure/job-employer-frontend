@@ -12,7 +12,7 @@ import { IoMdArrowBack } from "react-icons/io";
 
 const Auth = () => {
     const [email, setEmail] = useState("");
-    const [formType, setFormType] = useState<AuthFormType>("reset-password");
+    const [formType, setFormType] = useState<AuthFormType>("login");
 
     const formTitle = authFormTitles.find(form => form.type === formType);
 

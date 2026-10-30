@@ -1,5 +1,6 @@
 import { Fragment, type ReactNode } from "react";
 import ReactQueryProvider from "./ReactQueryProvider";
+import GoogleAuthProvider from "./GoogleAuthProvider";
 
 interface Props {
     children: ReactNode;
@@ -8,9 +9,11 @@ interface Props {
 const AppProviders = ({ children }: Props) => {
     return (
         <Fragment>
-            <ReactQueryProvider>
-                {children}
-            </ReactQueryProvider>
+            <GoogleAuthProvider>
+                <ReactQueryProvider>
+                    {children}
+                </ReactQueryProvider>
+            </GoogleAuthProvider>
         </Fragment>
     );
 };

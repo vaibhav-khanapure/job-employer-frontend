@@ -1,7 +1,6 @@
 import { Fragment, type SubmitEvent, useState } from "react";
 import type { AuthFormType } from "../../../types/auth.types";
 import { useMutation } from "@tanstack/react-query";
-import API from "@/src/lib/API";
 import FormError from "@/src/components/common/errors/FormError";
 import toast from "@/src/lib/toast";
 import useSchemaValidator from "@/src/hooks/useSchemaValidator";
@@ -13,6 +12,7 @@ import PasswordInput from "@/src/components/common/inputs/PasswordInput";
 import Loaders from "@/src/components/common/loaders/loaders";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
 import GoogleSignInButton from "../components/GoogleSignInButton";
+import authAPIAction from "../../../actions/authAPIAction";
 
 interface Props {
     handleChangeForm: (type: AuthFormType) => void;
@@ -30,7 +30,7 @@ const Login = ({ handleChangeForm }: Props) => {
 
     const { error, isPending, mutate } = useMutation({
         mutationFn: async (values: typeof user) => {
-            const { data } = await API.post("/auth/login", values);
+            const data = await authAPIAction("/login", { data: values });
             return data;
         },
         onError: (error) => toast.error(error?.errorMessage),
