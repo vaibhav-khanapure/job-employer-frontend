@@ -9,10 +9,12 @@ import RegisterConfirm from "./forms/RegisterConfirm";
 import ForgotPassword from "./forms/ForgotPassword";
 import ResetPassword from "./forms/ResetPassword";
 import { IoMdArrowBack } from "react-icons/io";
+import CompanyNameModal from "./components/CompanyNameModal";
 
 const Auth = () => {
     const [email, setEmail] = useState("");
     const [formType, setFormType] = useState<AuthFormType>("login");
+    const [showCompanyNameModal, setShowCompanyNameModal] = useState(true);
 
     const formTitle = authFormTitles.find(form => form.type === formType);
 
@@ -57,6 +59,8 @@ const Auth = () => {
             )}
 
             {formType === "reset-password" && <ResetPassword email={email} handleChangeForm={handleChangeForm} />}
+
+            {showCompanyNameModal && <CompanyNameModal />}
         </div>
     );
 };
