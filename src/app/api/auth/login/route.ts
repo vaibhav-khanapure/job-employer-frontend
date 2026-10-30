@@ -1,4 +1,4 @@
-import SERVER_ENV from "@/src/constants/env/serverEnv";
+import COOKIES from "@/src/constants/cookies";
 import serverAPI from "@/src/lib/serverAPI";
 import schemaValidator from "@/src/utils/validators/schemaValidator";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
             );
         };
 
-        const { data } = await serverAPI.post("/auth/login", values);
+        const { data, status } = await serverAPI.post("/auth/login", values);
 
         const { name, role, accessToken, refreshToken } = data;
 
@@ -28,16 +28,15 @@ export async function POST(request: NextRequest) {
 
         const cookieStore = await cookies();
 
-        cookieStore.set("user-ref", refreshToken, {
+        cookieStore.set(COOKIES.AUTH.REFRESH_TOKEN, refreshToken, {
             httpOnly: true,
             path: "/",
             maxAge: 60 * 60 * 24 * 30,
             sameSite: "lax",
-            secure: SERVER_ENV.APP_ENV !== "local",
+            secure: process.env.NODE_ENV === "production"
         });
 
-        return NextResponse.json({ accessToken, role, name }, { status: 200 });
-
+        return NextResponse.json({ accessToken, role, name }, { status });
     } catch (error) {
         return NextResponse.json({ message: "Server error occurred" }, { status: 500 });
     };

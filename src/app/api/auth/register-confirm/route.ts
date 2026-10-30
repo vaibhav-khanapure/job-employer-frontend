@@ -1,3 +1,4 @@
+import COOKIES from "@/src/constants/cookies";
 import SERVER_ENV from "@/src/constants/env/serverEnv";
 import serverAPI from "@/src/lib/serverAPI";
 import schemaValidator from "@/src/utils/validators/schemaValidator";
@@ -18,7 +19,7 @@ export async function POST(request: NextRequest) {
             );
         };
 
-        const { data } = await serverAPI.post("/auth/register-confirm", values);
+        const { data, status } = await serverAPI.post("/auth/register-confirm", values);
 
         const { accessToken, refreshToken } = data;
 
@@ -28,7 +29,7 @@ export async function POST(request: NextRequest) {
 
         const cookieStore = await cookies();
 
-        cookieStore.set("user-ref", refreshToken, {
+        cookieStore.set(COOKIES.AUTH.REFRESH_TOKEN, refreshToken, {
             httpOnly: true,
             path: "/",
             maxAge: 60 * 60 * 24 * 30,
@@ -36,8 +37,7 @@ export async function POST(request: NextRequest) {
             secure: SERVER_ENV.APP_ENV !== "local",
         });
 
-        return NextResponse.json({ accessToken }, { status: 201 });
-
+        return NextResponse.json({ accessToken }, { status });
     } catch (error) {
         return NextResponse.json({ message: "Server error occurred" }, { status: 500 });
     };

@@ -1,3 +1,4 @@
+import COOKIES from "@/src/constants/cookies";
 import SERVER_ENV from "@/src/constants/env/serverEnv";
 import serverAPI from "@/src/lib/serverAPI";
 import { cookies } from "next/headers";
@@ -13,7 +14,7 @@ export async function POST() {
             return NextResponse.json({ message: "Unauthorized" }, { status: 500 });
         };
 
-        const { data } = await serverAPI.post("/auth/verify", {
+        const { data, status } = await serverAPI.post("/auth/verify", {
             refreshToken: currentRefreshToken
         });
 
@@ -23,7 +24,7 @@ export async function POST() {
             return NextResponse.json({ message: "Auth verification failed, please sign in again" }, { status: 401 });
         };
 
-        cookieStore.set("user-ref", refreshToken, {
+        cookieStore.set(COOKIES.AUTH.REFRESH_TOKEN, refreshToken, {
             httpOnly: true,
             path: "/",
             maxAge: 60 * 60 * 24 * 30,
@@ -31,8 +32,7 @@ export async function POST() {
             secure: SERVER_ENV.APP_ENV !== "local",
         });
 
-        return NextResponse.json({ accessToken, role, name }, { status: 200 });
-
+        return NextResponse.json({ accessToken, role, name }, { status });
     } catch (error) {
         return NextResponse.json({ message: "Server error occurred" }, { status: 500 });
     };
