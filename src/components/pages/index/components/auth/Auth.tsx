@@ -9,12 +9,14 @@ import RegisterConfirm from "./forms/RegisterConfirm";
 import ForgotPassword from "./forms/ForgotPassword";
 import ResetPassword from "./forms/ResetPassword";
 import { IoMdArrowBack } from "react-icons/io";
-import CompanyNameModal from "./components/CompanyNameModal";
+import GoogleRegisterModal from "./components/GoogleRegisterModal";
+import useAuthStore from "@/src/store/authStore";
 
 const Auth = () => {
     const [email, setEmail] = useState("");
     const [formType, setFormType] = useState<AuthFormType>("login");
-    const [showCompanyNameModal, setShowCompanyNameModal] = useState(true);
+
+    const showGoogleRegisterModal = useAuthStore(state => state?.showGoogleRegisterModal)
 
     const formTitle = authFormTitles.find(form => form.type === formType);
 
@@ -60,7 +62,7 @@ const Auth = () => {
 
             {formType === "reset-password" && <ResetPassword email={email} handleChangeForm={handleChangeForm} />}
 
-            {showCompanyNameModal && <CompanyNameModal />}
+            {showGoogleRegisterModal && <GoogleRegisterModal />}
         </div>
     );
 };

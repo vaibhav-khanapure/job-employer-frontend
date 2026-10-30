@@ -10,7 +10,7 @@ import useAuthStore from "@/src/store/authStore";
 import useUserStore from "@/src/store/userStore";
 import { IoCloseOutline } from "react-icons/io5";
 
-const CompanyNameModal = () => {
+const GoogleRegisterModal = () => {
     const [company, setCompany] = useState('');
 
     const { error, isPending, mutate } = useMutation({
@@ -48,6 +48,7 @@ const CompanyNameModal = () => {
 
     const handleClose = () => {
         toast.info("Registration process aborted");
+        useAuthStore.setState({ showGoogleRegisterModal: false });
     };
 
     return (
@@ -66,9 +67,9 @@ const CompanyNameModal = () => {
                         </p>
                     </div>
 
-                    <div 
-                    className="size-10 min-h-10 min-w-10 grid place-items-center rounded-full cursor-pointer hover:bg-gray-50"
-                    onClick={handleClose}
+                    <div
+                        className="size-10 min-h-10 min-w-10 grid place-items-center rounded-full cursor-pointer hover:bg-gray-50"
+                        onClick={handleClose}
                     >
                         <IoCloseOutline size={24} />
                     </div>
@@ -96,4 +97,4 @@ const CompanyNameModal = () => {
     );
 };
 
-export default CompanyNameModal;
+export default GoogleRegisterModal;

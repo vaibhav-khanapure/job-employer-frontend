@@ -2,6 +2,7 @@ export interface AuthStoreState {
     isAuth: boolean;
     accessToken?: string;
     shouldRegenerateAccessToken?: boolean;
+    showGoogleRegisterModal?: boolean;
 };
 
 export interface AuthStoreActions {
