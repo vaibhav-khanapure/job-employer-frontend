@@ -7,7 +7,6 @@ import { useMutation } from "@tanstack/react-query";
 import toast from "@/src/lib/toast";
 import TextInput from "@/src/components/common/inputs/TextInput";
 import PasswordInput from "@/src/components/common/inputs/PasswordInput";
-import FormError from "@/src/components/common/errors/FormError";
 import Loaders from "@/src/components/common/loaders/loaders";
 
 interface Props {
@@ -27,16 +26,15 @@ const ResetPassword = ({ email, handleChangeForm }: Props) => {
         ...user
     });
 
-    const { error, isPending, mutate } = useMutation({
+    const { isPending, mutate } = useMutation({
         mutationFn: async (values: Omit<typeof user, "confirmPassword"> & { email: string; }) => {
-            const { data } = await API.post("/auth/reset-password", values);
+            const { data } = await API.patch("/auth/reset-password", values);
             return data;
         },
         onError: (error) => toast.error(error?.errorMessage),
         onSuccess: () => {
-            handleChangeForm("login");
-
             toast.success("Password reset successful");
+            handleChangeForm("login");
         }
     });
 
@@ -61,7 +59,13 @@ const ResetPassword = ({ email, handleChangeForm }: Props) => {
                 placeholder="Enter your code"
                 required
                 value={user?.code}
-                onChange={e => setUser(prev => ({ ...prev, code: e.target.value }))}
+                onChange={e => {
+                    const value = e.target.value.toUpperCase();
+
+                    if (/^[A-Z0-9]*$/.test(value)) {
+                        setUser(prev => ({ ...prev, code: value }));
+                    };
+                }}
             />
 
             <PasswordInput
@@ -81,8 +85,6 @@ const ResetPassword = ({ email, handleChangeForm }: Props) => {
                 value={user?.confirmPassword}
                 onChange={e => setUser(prev => ({ ...prev, confirmPassword: e.target.value }))}
             />
-
-            {error && <FormError message={error?.message} />}
 
             <button type="submit" className="btn" disabled={isPending}>
                 {isPending ? <Loaders.Spinner className="size-2" /> : (

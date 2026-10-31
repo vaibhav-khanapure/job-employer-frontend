@@ -6,7 +6,6 @@ import { useMutation } from "@tanstack/react-query";
 import { Fragment, SubmitEvent, useState } from "react";
 import type { AuthFormType } from "../../../types/auth.types";
 import TextInput from "@/src/components/common/inputs/TextInput";
-import FormError from "@/src/components/common/errors/FormError";
 import Loaders from "@/src/components/common/loaders/loaders";
 
 interface Props {
@@ -19,7 +18,7 @@ const ForgotPassword = ({ handleChangeForm, handleUpdateEmail }: Props) => {
 
     const { errors, handleValidateSchema } = useSchemaValidator(validationSchemas.auth.forgotPassword, { email });
 
-    const { error, isPending, mutate } = useMutation({
+    const { isPending, mutate } = useMutation({
         mutationFn: async (email: string) => {
             const { data } = await API.post("/auth/forgot-password", { email });
             return data;
@@ -28,6 +27,8 @@ const ForgotPassword = ({ handleChangeForm, handleUpdateEmail }: Props) => {
         onSuccess: (_, email) => {
             handleUpdateEmail(email);
             handleChangeForm("reset-password");
+
+            toast.info("Password reset code sent to your email. It is valid for 5 minutes.");
         }
     });
 
@@ -55,9 +56,6 @@ const ForgotPassword = ({ handleChangeForm, handleUpdateEmail }: Props) => {
                 type="email"
                 onChange={e => setEmail(e.target.value)}
             />
-
-            {error && <FormError message={error?.message} />}
-            {errors?.code && <FormError message={errors?.code} />}
 
             <button type="submit" className="btn" disabled={isPending}>
                 {isPending ? <Loaders.Spinner className="size-2" /> : (

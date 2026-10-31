@@ -21,7 +21,7 @@ const Auth = () => {
     const formTitle = authFormTitles.find(form => form.type === formType);
 
     const handleChangeForm = (type: AuthFormType) => {
-        // setEmail("");
+        if (type === "login") setEmail("");
         setFormType(type);
     };
 
