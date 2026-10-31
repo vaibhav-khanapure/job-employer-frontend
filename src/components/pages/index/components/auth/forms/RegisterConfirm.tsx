@@ -13,6 +13,7 @@ import verificationCodeValidator from "@/src/utils/validators/verificationCodeVa
 import useUserStore from "@/src/store/userStore";
 import useAuthStore from "@/src/store/authStore";
 import useCompanyStore from "@/src/store/companyStore";
+import authAPIAction from "../../../actions/authAPIAction";
 
 interface Props {
     email: string;
@@ -35,7 +36,7 @@ const RegisterConfirm = ({ email, handleChangeForm }: Props) => {
 
     useEffect(() => {
         if (inputRefs?.current) {
-            inputRefs.current[0].focus();
+            inputRefs.current?.[0]?.focus();
         };
     }, [inputRefs]);
 
@@ -64,13 +65,13 @@ const RegisterConfirm = ({ email, handleChangeForm }: Props) => {
     });
 
     const { isPending, mutate } = useMutation({
-        mutationFn: async (values: { code: string; email: string }) => {
-            const { data } = await API.post("/auth/register-confirm", values);
-            return data;
+        mutationFn: async (data: { code: string; email: string }) => {
+            const result = await authAPIAction("/register-confirm", { data });
+            return result;
         },
         onError: (error) => toast.error(error?.errorMessage),
-        onSuccess: (data) => {
-            const { accessToken, company, companySlug, email, name } = data;
+        onSuccess: (result) => {
+            const { accessToken, company, companySlug, email, name } = result?.data;
 
             useAuthStore.setState({
                 accessToken,
@@ -92,6 +93,8 @@ const RegisterConfirm = ({ email, handleChangeForm }: Props) => {
                     role: "admin"
                 }
             });
+
+            localStorage.setItem('sha-log', '1');
 
             toast.success("Registration completed successfully!");
 

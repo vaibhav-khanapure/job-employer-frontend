@@ -2,6 +2,7 @@ import COOKIES from "@/src/constants/cookies";
 import serverAPI from "@/src/lib/serverAPI";
 import schemaValidator from "@/src/utils/validators/schemaValidator";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
+import { AxiosError } from "axios";
 import { cookies } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 
@@ -35,9 +36,9 @@ export async function POST(request: NextRequest) {
             }
         );
 
-        const { accessToken, refreshToken } = data;
+        const { refreshToken, ...userData } = data;
 
-        if (!accessToken || !refreshToken) {
+        if (!refreshToken) {
             return NextResponse.json({ message: "Invalid email or password" }, { status: 401 });
         };
 
@@ -48,11 +49,25 @@ export async function POST(request: NextRequest) {
             path: "/",
             maxAge: 60 * 60 * 24 * 30,
             sameSite: "lax",
-            secure: process.env.NODE_ENV === "production",
+            secure: process.env.NODE_ENV === "production"
         });
 
-        return NextResponse.json({ accessToken }, { status });
+        return NextResponse.json(userData, { status });
     } catch (error) {
-        return NextResponse.json({ message: "Server error occurred" }, { status: 500 });
+        let message = "";
+        let status = 500;
+
+        if (error instanceof Error) {
+            message = error?.message;
+        };
+
+        if (error instanceof AxiosError) {
+            message = error?.response?.data?.message;
+            status = error?.status ?? 500;
+        };
+
+        if (!message) message = "Server error occurred, please try again";
+
+        return NextResponse.json({ message }, { status });
     };
 };

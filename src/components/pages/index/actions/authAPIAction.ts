@@ -18,10 +18,10 @@ const authAPIAction = async (path: string, config: Config) => {
     const result = await res.json();
 
     if (!res?.ok) {
-        throw new Error(result?.message ?? "Some error occurred");
+        throw { errorMessage: result?.message ?? "Server error occurred" };
     };
 
-    return result;
+    return { data: result, status: res?.status };
 };
 
 export default authAPIAction;

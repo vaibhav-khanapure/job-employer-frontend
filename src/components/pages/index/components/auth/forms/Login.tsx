@@ -1,7 +1,6 @@
 import { Fragment, type SubmitEvent, useState } from "react";
 import type { AuthFormType } from "../../../types/auth.types";
 import { useMutation } from "@tanstack/react-query";
-import FormError from "@/src/components/common/errors/FormError";
 import toast from "@/src/lib/toast";
 import useSchemaValidator from "@/src/hooks/useSchemaValidator";
 import useAuthStore from "@/src/store/authStore";
@@ -13,6 +12,7 @@ import Loaders from "@/src/components/common/loaders/loaders";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
 import GoogleSignInButton from "../components/GoogleSignInButton";
 import authAPIAction from "../../../actions/authAPIAction";
+import useCompanyStore from "@/src/store/companyStore";
 
 interface Props {
     handleChangeForm: (type: AuthFormType) => void;
@@ -28,14 +28,14 @@ const Login = ({ handleChangeForm }: Props) => {
 
     const { errors, handleValidateSchema } = useSchemaValidator(validationSchemas.auth.login, user);
 
-    const { error, isPending, mutate } = useMutation({
-        mutationFn: async (values: typeof user) => {
-            const data = await authAPIAction("/login", { data: values });
-            return data;
+    const { isPending, mutate } = useMutation({
+        mutationFn: async (data: typeof user) => {
+            const result = await authAPIAction("/login", { data });
+            return result;
         },
         onError: (error) => toast.error(error?.errorMessage),
-        onSuccess: (data, values) => {
-            const { accessToken, name } = data;
+        onSuccess: (res) => {
+            const { accessToken, company, companySlug, email, name, role } = res?.data;
 
             if (!accessToken) {
                 toast.error("Something went wrong, please try again");
@@ -49,8 +49,18 @@ const Login = ({ handleChangeForm }: Props) => {
             });
 
             useUserStore.setState({
-                name,
-                email: values?.email
+                user: {
+                    name,
+                    email,
+                    role
+                }
+            });
+
+            useCompanyStore.setState({
+                company: {
+                    name: company,
+                    slug: companySlug
+                }
             });
 
             localStorage.setItem('sha-log', '1');
@@ -104,8 +114,6 @@ const Login = ({ handleChangeForm }: Props) => {
                     </span>
                 )}
             />
-
-            {error && <FormError message={error?.message} />}
 
             <button type="submit" className="btn" disabled={isPending}>
                 {isPending ? <Loaders.Spinner className="size-2" /> : (
