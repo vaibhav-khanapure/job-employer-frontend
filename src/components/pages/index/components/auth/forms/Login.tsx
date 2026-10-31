@@ -13,6 +13,7 @@ import validationSchemas from "@/src/validationSchemas/validationSchema";
 import GoogleSignInButton from "../components/GoogleSignInButton";
 import authAPIAction from "../../../actions/authAPIAction";
 import useCompanyStore from "@/src/store/companyStore";
+import STORAGE_KEYS from "@/src/constants/storageKeys";
 
 interface Props {
     handleChangeForm: (type: AuthFormType) => void;
@@ -63,7 +64,7 @@ const Login = ({ handleChangeForm }: Props) => {
                 }
             });
 
-            localStorage.setItem('sha-log', '1');
+            localStorage.setItem(STORAGE_KEYS.LOCAL.USER_SIGNED_IN, '1');
 
             toast.success("Logged in successfully");
 

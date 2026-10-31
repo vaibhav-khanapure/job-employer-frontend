@@ -15,6 +15,7 @@ import useAuthStore from "@/src/store/authStore";
 import useCompanyStore from "@/src/store/companyStore";
 import authAPIAction from "../../../actions/authAPIAction";
 import CodeInput from "@/src/components/common/inputs/CodeInput";
+import STORAGE_KEYS from "@/src/constants/storageKeys";
 
 interface Props {
     email: string;
@@ -95,7 +96,7 @@ const RegisterConfirm = ({ email, handleChangeForm }: Props) => {
                 }
             });
 
-            localStorage.setItem('sha-log', '1');
+            localStorage.setItem(STORAGE_KEYS.LOCAL.USER_SIGNED_IN, '1');
 
             toast.success("Registration completed successfully!");
 
