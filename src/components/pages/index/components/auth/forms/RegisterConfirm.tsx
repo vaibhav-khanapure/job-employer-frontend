@@ -14,6 +14,7 @@ import useUserStore from "@/src/store/userStore";
 import useAuthStore from "@/src/store/authStore";
 import useCompanyStore from "@/src/store/companyStore";
 import authAPIAction from "../../../actions/authAPIAction";
+import CodeInput from "@/src/components/common/inputs/CodeInput";
 
 interface Props {
     email: string;
@@ -160,31 +161,23 @@ const RegisterConfirm = ({ email, handleChangeForm }: Props) => {
 
         setCode(prev => prev.map((char, i) => (i === index ? value : char)));
 
-        if (value && inputRefs.current[index + 1]) {
+        if (value && inputRefs.current?.[index + 1]) {
             inputRefs.current[index + 1].focus();
         };
     };
 
     return (
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-            <div className="flex items-center justify-center gap-2 sm:gap-4">
-                {code.map((char, index) => (
-                    <input
-                        key={`register-confirm-code-${index}`}
-                        value={char}
-                        id={`register-confirm-code-${index}`}
-                        // disabled={index > 0 && code[index - 1] === ""}
-                        maxLength={1}
-                        className="size-11 rounded-md text-center text-lg outline-none border border-gray-300 focus:border-gray-600"
-                        onKeyDown={e => handleKeyDown(e, index)}
-                        onChange={e => handleChange(e, index)}
-                        onPaste={handlePaste}
-                        ref={el => {
-                            if (el) inputRefs.current[index] = el;
-                        }}
-                    />
-                ))}
-            </div>
+            <CodeInput
+                handleChange={handleChange}
+                handleKeyDown={handleKeyDown}
+                onPaste={handlePaste}
+                refs={inputRefs}
+                tag="register-confirm-code"
+                value={code}
+                label="Enter your code"
+                error={errors?.code}
+            />
 
             <div className="-mt-2 text-right mb-2">
                 <div
@@ -203,12 +196,10 @@ const RegisterConfirm = ({ email, handleChangeForm }: Props) => {
                 </div>
             </div>
 
-            {errors?.code && <FormError message={errors?.code} />}
-
             <button type="submit" className="btn" disabled={isPending}>
                 {isPending ? <Loaders.Spinner className="size-2" /> : (
                     <Fragment>
-                        Create my Account &nbsp;
+                        Create my account &nbsp;
                         <span aria-hidden="true"> →</span>
                     </Fragment>
                 )}

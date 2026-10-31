@@ -28,7 +28,7 @@ const Auth = () => {
     return (
         <div className="p-6 py-8 max-w-100 rounded-lg shadow-sm">
 
-            {["forgot-password", "register-confirm"].includes(formType)  && (
+            {["forgot-password", "register-confirm"].includes(formType) && (
                 <div
                     className="size-10 rounded-full cursor-pointer grid place-items-center hover:bg-gray-50"
                     onClick={() => setFormType("login")}

@@ -18,7 +18,7 @@ const PasswordInput = ({ label, error, className, ref, maxLength = 30, LabelRigh
     return (
         <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between">
-                {label && <label htmlFor="password" className="label">{label || "Password"}</label>}
+                {label && <label htmlFor={inputId} className="label">{label || "Password"}</label>}
                 {LabelRightComponent && <LabelRightComponent />}
             </div>
 

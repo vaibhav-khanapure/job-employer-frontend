@@ -103,7 +103,7 @@ const Register = ({ handleChangeForm, handleUpdateEmail }: Props) => {
             <button type="submit" className="btn" disabled={isPending}>
                 {isPending ? <Loaders.Spinner className="size-2" /> : (
                     <Fragment>
-                        Create my Account &nbsp;
+                        Create my account &nbsp;
                         <span aria-hidden="true"> →</span>
                     </Fragment>
                 )}

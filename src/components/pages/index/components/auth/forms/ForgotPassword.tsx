@@ -21,7 +21,7 @@ const ForgotPassword = ({ handleChangeForm, handleUpdateEmail }: Props) => {
 
     const { error, isPending, mutate } = useMutation({
         mutationFn: async (email: string) => {
-            const { data } = await API.post("/auth/login", { email });
+            const { data } = await API.post("/auth/forgot-password", { email });
             return data;
         },
         onError: (error) => toast.error(error?.errorMessage),
