@@ -73,7 +73,6 @@ const Register = ({ handleChangeForm, handleUpdateEmail }: Props) => {
                 placeholder="you@gmail.com"
                 required
                 value={user?.email}
-                maxLength={200}
                 type="email"
                 onChange={e => setUser(prev => ({ ...prev, email: e.target.value }))}
             />
@@ -95,7 +94,6 @@ const Register = ({ handleChangeForm, handleUpdateEmail }: Props) => {
                 autoComplete="current-password"
                 placeholder="Enter your password"
                 required
-                maxLength={30}
                 value={user?.password}
                 onChange={e => setUser(prev => ({ ...prev, password: e.target.value }))}
             />
