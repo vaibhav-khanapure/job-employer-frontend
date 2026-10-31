@@ -7,7 +7,7 @@ const googleAuthRegisterSchema = z.object({
         })
         .trim()
         .min(1, { error: "Company name is required" })
-        .max(150, { error: "Company name must not exceed 150 characters" }),
+        .max(500, { error: "Company name must not exceed 500 characters" }),
 });
 
 export default googleAuthRegisterSchema;

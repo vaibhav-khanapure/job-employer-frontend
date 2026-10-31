@@ -1,3 +1,4 @@
+import googleAuthRegisterSchema from "../api/auth/googleAuthRegisterSchema";
 import forgotPasswordSchema from "./forgotPasswordSchema";
 import loginSchema from "./loginSchema";
 import registerConfirmSchema from "./registerConfirmSchema";
@@ -6,6 +7,7 @@ import resetPasswordSchema from "./resetPasswordSchema";
 
 const authSchemas = {
     forgotPassword: forgotPasswordSchema,
+    googleAuthRegister: googleAuthRegisterSchema,
     login: loginSchema,
     register: registerSchema,
     registerConfirm: registerConfirmSchema,

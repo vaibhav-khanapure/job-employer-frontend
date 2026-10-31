@@ -13,7 +13,7 @@ import validationSchemas from "@/src/validationSchemas/validationSchema";
 import GoogleSignInButton from "../components/GoogleSignInButton";
 import authAPIAction from "../../../actions/authAPIAction";
 import useCompanyStore from "@/src/store/companyStore";
-import STORAGE_KEYS from "@/src/constants/storageKeys";
+import BROWSER_STORAGE from "@/src/constants/browserStorage";
 
 interface Props {
     handleChangeForm: (type: AuthFormType) => void;
@@ -64,9 +64,9 @@ const Login = ({ handleChangeForm }: Props) => {
                 }
             });
 
-            localStorage.setItem(STORAGE_KEYS.LOCAL.USER_SIGNED_IN, '1');
+            localStorage.setItem(BROWSER_STORAGE.LOCAL.USER_SIGNED_IN, '1');
 
-            toast.success("Logged in successfully");
+            toast.success("Sign in successfully");
 
             replace("/home");
         }

@@ -1,4 +1,4 @@
-import COOKIES from "@/src/constants/cookies";
+import BROWSER_STORAGE from "@/src/constants/browserStorage";
 import SERVER_ENV from "@/src/constants/env/serverEnv";
 import serverAPI from "@/src/lib/serverAPI";
 import { cookies } from "next/headers";
@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     try {
         const cookieStore = await cookies();
 
-        const currentRefreshToken = cookieStore.get(COOKIES.AUTH.REFRESH_TOKEN);
+        const currentRefreshToken = cookieStore.get(BROWSER_STORAGE.COOKIES.AUTH.REFRESH_TOKEN);
 
         if (!currentRefreshToken) {
             return NextResponse.json({ message: "Unauthorized" }, { status: 500 });
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ message: "Auth verification failed, please sign in again" }, { status: 401 });
         };
 
-        cookieStore.set(COOKIES.AUTH.REFRESH_TOKEN, refreshToken, {
+        cookieStore.set(BROWSER_STORAGE.COOKIES.AUTH.REFRESH_TOKEN, refreshToken, {
             httpOnly: true,
             path: "/",
             maxAge: 60 * 60 * 24 * 30,

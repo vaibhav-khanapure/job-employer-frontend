@@ -1,31 +1,36 @@
-import FormError from "@/src/components/common/errors/FormError";
 import TextInput from "@/src/components/common/inputs/TextInput";
 import Loaders from "@/src/components/common/loaders/loaders";
 import APP from "@/src/constants/app";
 import { useMutation } from "@tanstack/react-query";
-import { Fragment, useState } from "react";
+import { Fragment, type SubmitEvent, useState } from "react";
 import authAPIAction from "../../../actions/authAPIAction";
 import toast from "@/src/lib/toast";
 import useAuthStore from "@/src/store/authStore";
 import useUserStore from "@/src/store/userStore";
 import { IoCloseOutline } from "react-icons/io5";
+import BROWSER_STORAGE from "@/src/constants/browserStorage";
+import useCompanyStore from "@/src/store/companyStore";
+import { useRouter } from "next/navigation";
+import useSchemaValidator from "@/src/hooks/useSchemaValidator";
+import validationSchemas from "@/src/validationSchemas/validationSchema";
 
 const GoogleRegisterModal = () => {
     const [company, setCompany] = useState('');
 
-    const { error, isPending, mutate } = useMutation({
+    const { replace } = useRouter();
+
+    const { errors, handleValidateSchema } = useSchemaValidator(validationSchemas.auth.googleAuthRegister, {
+        company
+    });
+
+    const { isPending, mutate } = useMutation({
         mutationFn: async (company: string) => {
             const data = await authAPIAction("/google/register", { data: { company } });
             return data;
         },
         onError: (error) => toast.error(error?.errorMessage),
-        onSuccess: (data, email) => {
-            const { accessToken, name } = data;
-
-            if (!accessToken) {
-                toast.error("Something went wrong, please try again");
-                return;
-            };
+        onSuccess: (result) => {
+            const { accessToken, company, companySlug, email, name } = result?.data;
 
             useAuthStore.setState({
                 accessToken,
@@ -33,16 +38,26 @@ const GoogleRegisterModal = () => {
                 shouldRegenerateAccessToken: true
             });
 
-            useUserStore.setState({
-                name,
-                email
+            useCompanyStore.setState({
+                company: {
+                    name: company,
+                    slug: companySlug
+                },
             });
 
-            localStorage.setItem('sha-log', '1');
+            useUserStore.setState({
+                user: {
+                    email,
+                    name,
+                    role: "admin"
+                }
+            });
 
-            toast.success("Logged in successfully");
+            localStorage.setItem(BROWSER_STORAGE.LOCAL.USER_SIGNED_IN, '1');
 
-            // replace("/home");
+            toast.success("Registration completed successfully!");
+
+            // replace("/home"); 
         }
     });
 
@@ -51,9 +66,21 @@ const GoogleRegisterModal = () => {
         useAuthStore.setState({ showGoogleRegisterModal: false });
     };
 
+    const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if (isPending) return;
+
+        const { success, data } = handleValidateSchema();
+
+        if (success && data) {
+            mutate(data?.company);
+        };
+    };
+
     return (
         <div className='fixed top-0 left-0 h-screen w-full grid place-items-center bg-black/20'>
-            <div className="p-6 max-w-100 w-full rounded-lg shadow-xl bg-white">
+            <form className="p-6 max-w-100 w-full rounded-lg shadow-xl bg-white" onSubmit={handleSubmit}>
 
                 <div className="flex justify-between mb-4">
                     <div>
@@ -77,12 +104,12 @@ const GoogleRegisterModal = () => {
 
                 <TextInput
                     label="Company name"
+                    error={errors?.company}
                     value={company}
+                    required
                     onChange={e => setCompany(e.target.value)}
                     placeholder={`e.g. ${APP.APP_NAME}`}
                 />
-
-                {error && <FormError message={error?.message} />}
 
                 <button type="submit" className="btn mt-4" disabled={isPending}>
                     {isPending ? <Loaders.Spinner className="size-2" /> : (
@@ -92,8 +119,8 @@ const GoogleRegisterModal = () => {
                         </Fragment>
                     )}
                 </button>
-            </div>
-        </div >
+            </form>
+        </div>
     );
 };
 

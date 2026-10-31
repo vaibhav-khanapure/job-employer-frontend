@@ -15,6 +15,10 @@ const authAPIAction = async (path: string, config: Config) => {
         ...(data ? { body: JSON.stringify(data) } : {})
     });
 
+    if (res.status === 204) {
+        return { status: res?.status, data: null };
+    };
+
     const result = await res.json();
 
     if (!res?.ok) {

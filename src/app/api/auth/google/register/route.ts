@@ -2,9 +2,10 @@ import serverAPI from "@/src/lib/serverAPI";
 import { cookies } from "next/headers";
 import { NextResponse, type NextRequest, } from "next/server";
 import { type ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
-import COOKIES from "@/src/constants/cookies";
 import schemaValidator from "@/src/utils/validators/schemaValidator";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
+import { AxiosError } from "axios";
+import BROWSER_STORAGE from "@/src/constants/browserStorage";
 
 export async function POST(request: NextRequest) {
     let cookieStore: ReadonlyRequestCookies | null = null;
@@ -31,9 +32,10 @@ export async function POST(request: NextRequest) {
 
         cookieStore = await cookies();
 
-        const googleCode = cookieStore.get(COOKIES.AUTH.GOOGLE_TEMPORARY_CODE);
+        const googleTemporaryCode = cookieStore.get(BROWSER_STORAGE.COOKIES.AUTH.GOOGLE_TEMPORARY_CODE);
+        const googleProvidedCode = cookieStore.get(BROWSER_STORAGE.COOKIES.AUTH.GOOGLE_PROVIDED_CODE);
 
-        if (!googleCode) {
+        if (!googleTemporaryCode || !googleProvidedCode) {
             return NextResponse.json({ message: "Session expired" }, { status: 400 });
         };
 
@@ -42,8 +44,9 @@ export async function POST(request: NextRequest) {
         const { data, status } = await serverAPI.post(
             "/auth/google/register",
             {
-                code: googleCode?.value,
-                comapnyName: values?.company
+                code: googleTemporaryCode?.value,
+                googleCode: googleProvidedCode?.value,
+                companyName: values?.company
             },
             {
                 headers: {
@@ -53,11 +56,12 @@ export async function POST(request: NextRequest) {
             }
         );
 
-        const { name, role, accessToken, refreshToken } = data;
+        const { refreshToken, ...userData } = data;
 
-        cookieStore.delete(COOKIES.AUTH.GOOGLE_TEMPORARY_CODE);
+        cookieStore.delete(BROWSER_STORAGE.COOKIES.AUTH.GOOGLE_TEMPORARY_CODE);
+        cookieStore.delete(BROWSER_STORAGE.COOKIES.AUTH.GOOGLE_PROVIDED_CODE);
 
-        cookieStore.set(COOKIES.AUTH.REFRESH_TOKEN, refreshToken, {
+        cookieStore.set(BROWSER_STORAGE.COOKIES.AUTH.REFRESH_TOKEN, refreshToken, {
             httpOnly: true,
             path: "/",
             maxAge: 60 * 60 * 24 * 30,
@@ -65,12 +69,27 @@ export async function POST(request: NextRequest) {
             secure: process.env.NODE_ENV === "production"
         });
 
-        return NextResponse.json({ accessToken, role, name }, { status });
+        return NextResponse.json(userData, { status });
     } catch (error) {
         if (cookieStore) {
-            cookieStore.delete(COOKIES.AUTH.GOOGLE_TEMPORARY_CODE);
+            cookieStore.delete(BROWSER_STORAGE.COOKIES.AUTH.GOOGLE_TEMPORARY_CODE);
+            cookieStore.delete(BROWSER_STORAGE.COOKIES.AUTH.REFRESH_TOKEN);
         };
 
-        return NextResponse.json({ message: "Server error occurred" }, { status: 500 });
+        let message = "";
+        let status = 500;
+
+        if (error instanceof Error) {
+            message = error?.message;
+        };
+
+        if (error instanceof AxiosError) {
+            message = error?.response?.data?.message;
+            status = error?.status ?? 500;
+        };
+
+        if (!message) message = "Server error occurred, please try again";
+
+        return NextResponse.json({ message }, { status });
     };
 };

@@ -1,12 +1,15 @@
-import COOKIES from "@/src/constants/cookies";
+import BROWSER_STORAGE from "@/src/constants/browserStorage";
 import serverAPI from "@/src/lib/serverAPI";
 import schemaValidator from "@/src/utils/validators/schemaValidator";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
 import { AxiosError } from "axios";
+import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { cookies } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
+    let cookieStore: ReadonlyRequestCookies | null = null;
+
     try {
         const body = await request.json();
 
@@ -42,9 +45,9 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ message: "Invalid email or password" }, { status: 401 });
         };
 
-        const cookieStore = await cookies();
+        cookieStore = await cookies();
 
-        cookieStore.set(COOKIES.AUTH.REFRESH_TOKEN, refreshToken, {
+        cookieStore.set(BROWSER_STORAGE.COOKIES.AUTH.REFRESH_TOKEN, refreshToken, {
             httpOnly: true,
             path: "/",
             maxAge: 60 * 60 * 24 * 30,
@@ -54,6 +57,10 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json(userData, { status });
     } catch (error) {
+        if (cookieStore) {
+            cookieStore.delete(BROWSER_STORAGE.COOKIES.AUTH.REFRESH_TOKEN);
+        };
+
         let message = "";
         let status = 500;
 
