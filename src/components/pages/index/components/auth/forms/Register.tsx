@@ -1,6 +1,5 @@
 import { Fragment, type SubmitEvent, useState } from "react";
 import type { AuthFormType } from "../../../types/auth.types";
-import { useRouter } from "next/navigation";
 import useSchemaValidator from "@/src/hooks/useSchemaValidator";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
 import { useMutation } from "@tanstack/react-query";
@@ -8,7 +7,6 @@ import API from "@/src/lib/API";
 import toast from "@/src/lib/toast";
 import TextInput from "@/src/components/common/inputs/TextInput";
 import PasswordInput from "@/src/components/common/inputs/PasswordInput";
-import FormError from "@/src/components/common/errors/FormError";
 import APP from "@/src/constants/app";
 import GoogleSignInButton from "../components/GoogleSignInButton";
 import Loaders from "@/src/components/common/loaders/loaders";
@@ -26,20 +24,19 @@ const Register = ({ handleChangeForm, handleUpdateEmail }: Props) => {
         password: "",
     });
 
-    const { replace } = useRouter();
-
     const { errors, handleValidateSchema } = useSchemaValidator(validationSchemas.auth.register, user);
 
-    const { error, isPending, mutate } = useMutation({
+    const { isPending, mutate } = useMutation({
         mutationFn: async (values: typeof user) => {
             const { data } = await API.post("/auth/register", values);
             return data;
         },
         onError: (error) => toast.error(error?.errorMessage),
-        onSuccess: (data, values) => {
-
+        onSuccess: (_, values) => {
             handleUpdateEmail(values?.email);
             handleChangeForm("register-confirm");
+
+            toast.info("A verification code has been sent to your email. Please verify your account within 5 minutes.");
         }
     });
 
@@ -64,6 +61,7 @@ const Register = ({ handleChangeForm, handleUpdateEmail }: Props) => {
                 autoComplete="name"
                 placeholder="Enter your name"
                 required
+                maxLength={250}
                 value={user?.name}
                 onChange={e => setUser(prev => ({ ...prev, name: e.target.value }))}
             />
@@ -75,6 +73,7 @@ const Register = ({ handleChangeForm, handleUpdateEmail }: Props) => {
                 placeholder="you@gmail.com"
                 required
                 value={user?.email}
+                maxLength={200}
                 type="email"
                 onChange={e => setUser(prev => ({ ...prev, email: e.target.value }))}
             />
@@ -85,6 +84,7 @@ const Register = ({ handleChangeForm, handleUpdateEmail }: Props) => {
                 placeholder={`e.g. ${APP.APP_NAME}`}
                 autoComplete="organization"
                 required
+                maxLength={500}
                 value={user?.company}
                 onChange={e => setUser(prev => ({ ...prev, company: e.target.value }))}
             />
@@ -95,11 +95,10 @@ const Register = ({ handleChangeForm, handleUpdateEmail }: Props) => {
                 autoComplete="current-password"
                 placeholder="Enter your password"
                 required
+                maxLength={30}
                 value={user?.password}
                 onChange={e => setUser(prev => ({ ...prev, password: e.target.value }))}
             />
-
-            {error && <FormError message={error?.message} />}
 
             <button type="submit" className="btn" disabled={isPending}>
                 {isPending ? <Loaders.Spinner className="size-2" /> : (

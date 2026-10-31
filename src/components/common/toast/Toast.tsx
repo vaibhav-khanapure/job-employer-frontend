@@ -20,7 +20,7 @@ const Toast = () => {
                         <div
                             key={message.id}
                             role={message.type === "error" ? "alert" : "status"}
-                            className="relative isolate flex items-center gap-3 overflow-hidden rounded-lg border border-white/20 p-3 text-white/95 shadow-[0_4px_16px_rgba(0,0,0,0.18),0_0_20px_rgba(255,255,255,0.08)] pointer-events-auto"
+                            className="relative isolate flex items-center gap-3 overflow-hidden rounded-xl border border-white/20 p-3 text-white/95 shadow-[0_4px_16px_rgba(0,0,0,0.18),0_0_20px_rgba(255,255,255,0.08)] pointer-events-auto"
                             style={{
                                 backgroundColor: COLORS.toast[message.type],
                                 boxShadow: `0 4px 16px rgba(0,0,0,0.18), 0 0 18px ${COLORS.toast[message.type]}55`,
