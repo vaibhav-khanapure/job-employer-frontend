@@ -21,7 +21,7 @@ const Register = ({ handleChangeForm, handleUpdateEmail }: Props) => {
         company: "",
         email: "",
         name: "",
-        password: "",
+        password: ""
     });
 
     const { errors, handleValidateSchema } = useSchemaValidator(validationSchemas.auth.register, user);
