@@ -1,6 +1,9 @@
 export interface UserStoreState {
-    name: string;
-    email: string;
+    user: null | {
+        email: string;
+        name: string;
+        role: 'admin' | 'hr' | 'recruiter' | 'hiring_manager';
+    };
 };
 
 export interface UserStoreActions {

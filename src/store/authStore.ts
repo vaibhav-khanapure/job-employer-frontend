@@ -8,7 +8,12 @@ const initialState: AuthStoreState = {
 const useAuthStore = create<AuthStoreTypes>((set) => ({
     ...initialState,
 
-    resetState: () => set({ ...initialState })
+    resetState: () => set({
+        ...initialState,
+        accessToken: "",
+        shouldRegenerateAccessToken: false,
+        showGoogleRegisterModal: false
+    })
 }));
 
 export default useAuthStore;
