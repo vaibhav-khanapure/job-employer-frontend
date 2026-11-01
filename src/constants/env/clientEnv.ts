@@ -2,6 +2,7 @@ import { z } from "zod";
 
 const clientEnvSchema = z.object({
     NEXT_PUBLIC_API_URL: z.url(),
+    NEXT_PUBLIC_APP_ENV: z.enum(["local", "development", "testing", "staging", "live"]),
     NEXT_PUBLIC_GOOGLE_CLIENT_ID: z.string(),
     NEXT_PUBLIC_HIRE_SITE_URL: z.url(),
     NEXT_PUBLIC_SERVER_URL: z.url(),
@@ -10,6 +11,7 @@ const clientEnvSchema = z.object({
 
 const result = clientEnvSchema.safeParse({
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    NEXT_PUBLIC_APP_ENV: process.env.NEXT_PUBLIC_APP_ENV,
     NEXT_PUBLIC_GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
     NEXT_PUBLIC_HIRE_SITE_URL: process.env.NEXT_PUBLIC_HIRE_SITE_URL,
     NEXT_PUBLIC_SERVER_URL: process.env.NEXT_PUBLIC_SERVER_URL,
@@ -24,6 +26,7 @@ if (!result.success) {
 
 const CLIENT_ENV = {
     API_URL: result.data.NEXT_PUBLIC_API_URL,
+    APP_ENV: result.data.NEXT_PUBLIC_APP_ENV,
     GOOGLE_CLIENT_ID: result.data.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
     HIRE_SITE_URL: result.data.NEXT_PUBLIC_HIRE_SITE_URL,
     SERVER_URL: result.data.NEXT_PUBLIC_SERVER_URL,

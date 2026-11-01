@@ -1,12 +1,15 @@
 import BROWSER_STORAGE from "@/src/constants/browserStorage";
-import SERVER_ENV from "@/src/constants/env/serverEnv";
 import serverAPI from "@/src/lib/serverAPI";
+import { AxiosError } from "axios";
+import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { cookies } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
+    let cookieStore: ReadonlyRequestCookies | null = null;
+
     try {
-        const cookieStore = await cookies();
+        cookieStore = await cookies();
 
         const currentRefreshToken = cookieStore.get(BROWSER_STORAGE.COOKIES.AUTH.REFRESH_TOKEN);
 
@@ -22,7 +25,7 @@ export async function POST(request: NextRequest) {
 
         const { data, status } = await serverAPI.post(
             "/auth/verify",
-            { refreshToken: currentRefreshToken },
+            { refreshToken: currentRefreshToken?.value },
             {
                 headers: {
                     "x-client-ip": clientIp,
@@ -30,10 +33,10 @@ export async function POST(request: NextRequest) {
                 }
             });
 
-        const { name, role, accessToken, refreshToken } = data;
+        const { refreshToken, ...userData } = data;
 
-        if (!accessToken || !refreshToken || !role) {
-            return NextResponse.json({ message: "Auth verification failed, please sign in again" }, { status: 401 });
+        if (!refreshToken) {
+            return NextResponse.json({ message: "Session expired, please sign in again" }, { status });
         };
 
         cookieStore.set(BROWSER_STORAGE.COOKIES.AUTH.REFRESH_TOKEN, refreshToken, {
@@ -41,11 +44,29 @@ export async function POST(request: NextRequest) {
             path: "/",
             maxAge: 60 * 60 * 24 * 30,
             sameSite: "lax",
-            secure: SERVER_ENV.APP_ENV !== "local",
+            secure: process.env.NODE_ENV === "production",
         });
 
-        return NextResponse.json({ accessToken, role, name }, { status });
+        return NextResponse.json(userData, { status });
     } catch (error) {
-        return NextResponse.json({ message: "Server error occurred" }, { status: 500 });
+        if (cookieStore) {
+            cookieStore.delete(BROWSER_STORAGE.COOKIES.AUTH.REFRESH_TOKEN);
+        };
+
+        let message = "";
+        let status = 500;
+
+        if (error instanceof Error) {
+            message = error?.message;
+        };
+
+        if (error instanceof AxiosError) {
+            message = error?.response?.data?.message;
+            status = error?.status ?? 500;
+        };
+
+        if (!message) message = "Server error occurred, please try again";
+
+        return NextResponse.json({ message }, { status });
     };
 };
