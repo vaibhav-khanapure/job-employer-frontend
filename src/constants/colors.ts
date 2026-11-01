@@ -4,7 +4,7 @@ const COLORS = {
     toast: {
         error: "#DC2626",
         info: "dodgerblue",
-        success: "mediumseagreen",
+        success: "#15803D",
         warning: "#D97706",
     },
 };
