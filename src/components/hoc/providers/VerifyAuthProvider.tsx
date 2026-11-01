@@ -8,6 +8,7 @@ import toast from "@/src/lib/toast";
 import useAuthStore from "@/src/store/authStore";
 import useCompanyStore from "@/src/store/companyStore";
 import useUserStore from "@/src/store/userStore";
+import handleLogout from "@/src/utils/auth/handleLogout";
 import { useMutation } from "@tanstack/react-query";
 import { usePathname, useRouter } from "next/navigation";
 import { Fragment, useEffect, useRef, type ReactNode } from "react";
@@ -27,7 +28,7 @@ const VerifyAuthProvider = ({ children }: Props) => {
         onError: (error) => {
             localStorage.removeItem(BROWSER_STORAGE.LOCAL.USER_SIGNED_IN);
 
-            if (pathname !== "/") replace("/");
+            if (pathname !== "/") handleLogout({ replace });
 
             toast.error(CLIENT_ENV.APP_ENV !== "live" ? error?.errorMessage : "Session expired, please sign in again");
         },
@@ -80,7 +81,9 @@ const VerifyAuthProvider = ({ children }: Props) => {
     }, []);
 
     return (
-        <Fragment>{children}</Fragment>
+        <Fragment>
+            {children}
+        </Fragment>
     );
 };
 

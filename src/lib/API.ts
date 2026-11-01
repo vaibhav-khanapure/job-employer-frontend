@@ -1,6 +1,8 @@
 import axios from "axios";
 import useAuthStore from "../store/authStore";
 import CLIENT_ENV from "../constants/env/clientEnv";
+import handleLogout from "../utils/auth/handleLogout";
+import toast from "./toast";
 
 const API = axios.create({
     baseURL: CLIENT_ENV.API_URL,
@@ -20,7 +22,14 @@ API.interceptors.request.use(request => {
 API.interceptors.response.use(
     response => response,
     error => {
-        error.errorMessage = error?.response?.data?.message ?? error?.message ?? "Some error occurred";
+        let message = error?.response?.data?.message ?? error?.message ?? "Some error occurred";
+
+        if (message === "__401") {
+            handleLogout({ revokeSession: true });
+            message = "Session expired, please sign in again";
+        };
+
+        error.errorMessage = message;
 
         return Promise.reject(error);
     }
