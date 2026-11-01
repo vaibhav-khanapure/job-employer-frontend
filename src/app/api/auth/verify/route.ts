@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
         const currentRefreshToken = cookieStore.get(BROWSER_STORAGE.COOKIES.AUTH.REFRESH_TOKEN);
 
         if (!currentRefreshToken) {
-            return NextResponse.json({ message: "Session expired, please sign in again" }, { status: 500 });
+            return NextResponse.json({ message: "Session expired, please sign in again" }, { status: 401 });
         };
 
         const { headers } = getClientInfoAndHeaders(request);

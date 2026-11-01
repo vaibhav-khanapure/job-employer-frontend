@@ -7,7 +7,7 @@ export const config = {
         // Guest Routes
         '/',
         // Auth Routes
-        '/dashboard', '/profile', '/jobs'
+        '/home'
     ],
 };
 

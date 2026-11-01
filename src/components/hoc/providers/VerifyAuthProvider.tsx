@@ -9,7 +9,7 @@ import useAuthStore from "@/src/store/authStore";
 import useCompanyStore from "@/src/store/companyStore";
 import useUserStore from "@/src/store/userStore";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Fragment, useEffect, useRef, type ReactNode } from "react";
 
 interface Props {
@@ -19,12 +19,15 @@ interface Props {
 const VerifyAuthProvider = ({ children }: Props) => {
     const hasVerified = useRef(false);
     const { replace } = useRouter();
+    const pathname = usePathname();
 
     const { mutate } = useMutation({
         mutationFn: () => authAPIAction("/verify", {}),
         onSettled: () => pageLoader.close(),
         onError: (error) => {
             localStorage.removeItem(BROWSER_STORAGE.LOCAL.USER_SIGNED_IN);
+
+            if (pathname !== "/") replace("/");
 
             toast.error(CLIENT_ENV.APP_ENV !== "live" ? error?.errorMessage : "Session expired, please sign in again");
         },
