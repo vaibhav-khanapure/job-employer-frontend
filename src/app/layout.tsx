@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Google_Sans } from "next/font/google";
 import "./globals.css";
 import APP from "../constants/app";
 import AppProviders from "../components/hoc/providers/AppProviders";
 import Toast from "../components/common/toast/Toast";
 import PageLoader from "../components/common/loaders/PageLoader";
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const googleSans = Google_Sans({
+  variable: "--font-google-sans",
   subsets: ["latin"],
   display: "swap"
 });
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 const RootLayout = ({ children }: LayoutProps<"/">) => {
   return (
-    <html lang="en" className={`${outfit.variable} h-full antialiased`}>
+    <html lang="en" className={`${googleSans.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         <Toast />
         <PageLoader />
