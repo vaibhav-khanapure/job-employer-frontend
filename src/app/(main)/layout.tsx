@@ -1,5 +1,6 @@
 import MainSidebar from "@/src/components/common/sidebars/mainSidebar/MainSidebar";
 import type { ReactNode } from "react";
+import Topbar from "./components/Topbar";
 
 interface Props {
     children: ReactNode;
@@ -10,6 +11,7 @@ const Layout = ({ children }: Props) => {
         <main className="flex">
             <MainSidebar />
             <div className="flex-1 bg-[#FAF8F2]">
+                <Topbar />
                 {children}
             </div>
         </main>

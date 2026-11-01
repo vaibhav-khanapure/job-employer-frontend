@@ -20,7 +20,7 @@ const MainSidebar = () => {
             </div>
 
             {/* Navigation */}
-            <nav className="flex flex-col gap-7 px-3 pt-5">
+            <nav className="flex flex-col gap-7 px-3 pt-5 h-[calc(100vh-64px)] overflow-y-auto">
                 {navLinks.map((section, sectionIndex) => (
                     <div key={`section-link-${sectionIndex}`} className="flex flex-col gap-1">
                         {section.title && (
