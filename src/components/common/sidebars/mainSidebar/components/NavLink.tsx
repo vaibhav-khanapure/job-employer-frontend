@@ -6,17 +6,25 @@ interface Props {
     name: string;
     path: string;
     active?: boolean;
-}
+    external?: boolean;
+};
 
-const NavLink = ({ children, path, name, active }: Props) => {
+const NavLink = ({ children, path, name, active, external }: Props) => {
     return (
         <Link
             href={path}
-            className={`flex items-center gap-3 p-4 rounded-xl ${active ? 'bg-black' : 'hover:bg-slate-50'}`}
+            target={external ? "_blank" : undefined}
+            rel={external ? "noopener noreferrer" : undefined}
             title={name}
+            aria-current={active ? "page" : undefined}
+            className={`
+                flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors duration-150
+                ${active ? "bg-primary/10 text-primary" : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"}
+            `}
         >
             {children}
-            <span className={`text-sm tracking-wide text-primary ${active ? 'text-white' : ''}`}>
+
+            <span className={`text-sm ${active ? "font-semibold" : "font-medium"}`}>
                 {name}
             </span>
         </Link>

@@ -9,24 +9,52 @@ const MainSidebar = () => {
     const pathname = usePathname();
 
     return (
-        <aside className="flex flex-col w-full p-4 gap-2 max-w-70 min-h-screen border border-r-[rgba(6,6,6,.08)]">
-            <div className="mb-6 flex items-center gap-2">
-                <h2 className="text-3xl font-bold tracking-tight">
-                    {APP.APP_NAME}
-                </h2>
+        <aside className="flex flex-col w-64 min-h-screen bg-white border-r border-zinc-200">
 
-                <p className="mt-1 text-xs text-zinc-500">
-                    EMPOWER HIRING
-                </p>
+            {/* Brand */}
+            <div className="flex items-center h-16 px-6 border-b border-gray-200">
+                <h2 className="text-[23px] font-bold tracking-tight text-zinc-900">
+                    {APP.APP_NAME}
+                    <span className="text-primary">.</span>
+                </h2>
             </div>
 
-            {navLinks.map((Link, index) => (
-                <NavLink name={Link?.name} key={`link-${index}-${Link.name}`} path={Link?.path} active={pathname === Link?.path}>
-                    <Link.icon color={pathname === Link?.path ? "#fff" : "#111"} size={20} />
-                </NavLink>
-            ))}
-        </aside>
+            {/* Navigation */}
+            <nav className="flex flex-col gap-7 px-3 pt-5">
+                {navLinks.map((section, sectionIndex) => (
+                    <div key={`section-link-${sectionIndex}`} className="flex flex-col gap-1">
+                        {section.title && (
+                            <p className="px-3 mb-2 text-xs tracking-wider font-medium text-zinc-400">
+                                {section.title}
+                            </p>
+                        )}
 
+                        {section.links.map((link) => {
+                            const isActive = pathname === link?.path ||
+                                (link?.path !== "/home" && pathname.startsWith(`${link?.path}/`))
+
+                            const Icon = link?.icon;
+
+                            return (
+                                <NavLink
+                                    key={link.path}
+                                    name={link.name}
+                                    path={link.path}
+                                    active={isActive}
+                                    external={"external" in link && link?.external}
+                                >
+                                    <Icon
+                                        size={20}
+                                        strokeWidth={isActive ? 2.2 : 1.8}
+                                    />
+                                </NavLink>
+                            );
+                        })}
+                    </div>
+                ))}
+            </nav>
+
+        </aside>
     );
 };
 
