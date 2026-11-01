@@ -24,17 +24,15 @@ export async function POST(request: NextRequest) {
 
         const { refreshToken, ...userData } = data;
 
-        if (!refreshToken) {
-            return NextResponse.json({ message: "Session expired, please sign in again" }, { status });
+        if (refreshToken) {
+            cookieStore.set(BROWSER_STORAGE.COOKIES.AUTH.REFRESH_TOKEN, refreshToken, {
+                httpOnly: true,
+                path: "/",
+                maxAge: 60 * 60 * 24 * 30,
+                sameSite: "lax",
+                secure: process.env.NODE_ENV === "production",
+            });
         };
-
-        cookieStore.set(BROWSER_STORAGE.COOKIES.AUTH.REFRESH_TOKEN, refreshToken, {
-            httpOnly: true,
-            path: "/",
-            maxAge: 60 * 60 * 24 * 30,
-            sameSite: "lax",
-            secure: process.env.NODE_ENV === "production",
-        });
 
         return NextResponse.json(userData, { status });
     } catch (error) {
