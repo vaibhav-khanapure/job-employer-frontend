@@ -1,5 +1,6 @@
 import BROWSER_STORAGE from "@/src/constants/browserStorage";
 import serverAPI from "@/src/lib/serverAPI";
+import getAPIError from "@/src/utils/server/api/getAPIError";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -9,10 +10,7 @@ export async function DELETE() {
         const refreshToken = cookieStore.get(BROWSER_STORAGE.COOKIES.AUTH.REFRESH_TOKEN);
 
         if (!refreshToken) {
-            return NextResponse.json(
-                { message: "Already logged out" },
-                { status: 200 }
-            );
+            return NextResponse.json({ message: "logout successfull" }, { status: 200 });
         };
 
         cookieStore.delete(BROWSER_STORAGE.COOKIES.AUTH.REFRESH_TOKEN);
@@ -25,6 +23,12 @@ export async function DELETE() {
             return NextResponse.json(null, { status: 500 });
         };
     } catch (error) {
-        return NextResponse.json({ message: 'Server error occurred' }, { status: 500 });
+        const { message, status } = await getAPIError(error, {
+            removeCookies: [
+                BROWSER_STORAGE.COOKIES.AUTH.REFRESH_TOKEN
+            ]
+        });
+
+        return NextResponse.json({ message }, { status });
     };
 };

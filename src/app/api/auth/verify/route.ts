@@ -1,15 +1,12 @@
 import BROWSER_STORAGE from "@/src/constants/browserStorage";
 import serverAPI from "@/src/lib/serverAPI";
-import { AxiosError } from "axios";
-import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
+import getAPIError from "@/src/utils/server/api/getAPIError";
 import { cookies } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-    let cookieStore: ReadonlyRequestCookies | null = null;
-
     try {
-        cookieStore = await cookies();
+       const cookieStore = await cookies();
 
         const currentRefreshToken = cookieStore.get(BROWSER_STORAGE.COOKIES.AUTH.REFRESH_TOKEN);
 
@@ -49,23 +46,11 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json(userData, { status });
     } catch (error) {
-        if (cookieStore) {
-            cookieStore.delete(BROWSER_STORAGE.COOKIES.AUTH.REFRESH_TOKEN);
-        };
-
-        let message = "";
-        let status = 500;
-
-        if (error instanceof Error) {
-            message = error?.message;
-        };
-
-        if (error instanceof AxiosError) {
-            message = error?.response?.data?.message;
-            status = error?.status ?? 500;
-        };
-
-        if (!message) message = "Server error occurred, please try again";
+        const { message, status } = await getAPIError(error, {
+            removeCookies: [
+                BROWSER_STORAGE.COOKIES.AUTH.REFRESH_TOKEN
+            ]
+        });
 
         return NextResponse.json({ message }, { status });
     };

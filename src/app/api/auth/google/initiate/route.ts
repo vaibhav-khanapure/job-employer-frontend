@@ -1,13 +1,10 @@
 import BROWSER_STORAGE from "@/src/constants/browserStorage";
 import serverAPI from "@/src/lib/serverAPI";
-import { AxiosError } from "axios";
-import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
+import getAPIError from "@/src/utils/server/api/getAPIError";
 import { cookies } from "next/headers";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
-    let cookieStore: ReadonlyRequestCookies | null = null;
-
     try {
         const clientIp =
             request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
@@ -25,7 +22,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ message: "Session expired" }, { status: 500 });
         };
 
-        cookieStore = await cookies();
+        const cookieStore = await cookies();
 
         cookieStore.set(BROWSER_STORAGE.COOKIES.AUTH.GOOGLE_TEMPORARY_CODE, data?.code, {
             httpOnly: true,
@@ -37,23 +34,11 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json(null, { status });
     } catch (error) {
-        if (cookieStore) {
-            cookieStore.delete(BROWSER_STORAGE.COOKIES.AUTH.GOOGLE_TEMPORARY_CODE);
-        };
-
-        let message = "";
-        let status = 500;
-
-        if (error instanceof Error) {
-            message = error?.message;
-        };
-
-        if (error instanceof AxiosError) {
-            message = error?.response?.data?.message;
-            status = error?.status ?? 500;
-        };
-
-        if (!message) message = "Server error occurred, please try again";
+        const { message, status } = await getAPIError(error, {
+            removeCookies: [
+                BROWSER_STORAGE.COOKIES.AUTH.GOOGLE_TEMPORARY_CODE
+            ]
+        });
 
         return NextResponse.json({ message }, { status });
     };
