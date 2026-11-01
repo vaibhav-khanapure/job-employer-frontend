@@ -19,7 +19,7 @@ const NavLink = ({ children, path, name, active, external }: Props) => {
             aria-current={active ? "page" : undefined}
             className={`
                 flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors duration-150
-                ${active ? "bg-primary/10 text-primary" : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"}
+                ${active ? "bg-gray-100 text-primary" : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"}
             `}
         >
             {children}

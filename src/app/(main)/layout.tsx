@@ -12,7 +12,9 @@ const Layout = ({ children }: Props) => {
             <MainSidebar />
             <div className="flex-1 bg-[#FAF8F2]">
                 <Topbar />
-                {children}
+                <div className="p-4">
+                    {children}
+                </div>
             </div>
         </main>
     );

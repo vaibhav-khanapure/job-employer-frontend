@@ -62,7 +62,7 @@ const GoogleSignInButton = () => {
 
                     localStorage.setItem(BROWSER_STORAGE.LOCAL.USER_SIGNED_IN, '1');
 
-                    toast.success("Sign in successfully");
+                    toast.success("Signed in successfully");
 
                     replace("/home");
                 };

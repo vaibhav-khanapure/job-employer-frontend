@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 
 const Topbar = () => {
     const pathname = usePathname();
-
     const currentPage = pathname.split("/")?.at(-1);
 
     return (
