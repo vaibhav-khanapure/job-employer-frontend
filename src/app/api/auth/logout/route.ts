@@ -10,7 +10,7 @@ export async function DELETE() {
         const refreshToken = cookieStore.get(BROWSER_STORAGE.COOKIES.AUTH.REFRESH_TOKEN);
 
         if (!refreshToken) {
-            return NextResponse.json({ message: "logout successfull" }, { status: 200 });
+            return NextResponse.json({ message: "logout success" }, { status: 200 });
         };
 
         cookieStore.delete(BROWSER_STORAGE.COOKIES.AUTH.REFRESH_TOKEN);
