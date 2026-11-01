@@ -1,4 +1,6 @@
 const COLORS = {
+    PRIMARY: "#111",
+
     toast: {
         error: "#DC2626",
         info: "dodgerblue",

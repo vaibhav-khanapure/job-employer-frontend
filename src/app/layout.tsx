@@ -4,6 +4,7 @@ import "./globals.css";
 import APP from "../constants/app";
 import AppProviders from "../components/hoc/providers/AppProviders";
 import Toast from "../components/common/toast/Toast";
+import PageLoader from "../components/common/loaders/PageLoader";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -21,6 +22,7 @@ const RootLayout = ({ children }: LayoutProps<"/">) => {
     <html lang="en" className={`${outfit.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         <Toast />
+        <PageLoader />
 
         <AppProviders>
           {children}
