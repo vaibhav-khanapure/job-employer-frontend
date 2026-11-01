@@ -12,9 +12,9 @@ import verificationCodeValidator from "@/src/utils/validators/verificationCodeVa
 import useUserStore from "@/src/store/userStore";
 import useAuthStore from "@/src/store/authStore";
 import useCompanyStore from "@/src/store/companyStore";
-import authAPIAction from "../../../../../../actions/auth/authAPIAction";
 import CodeInput from "@/src/components/common/inputs/CodeInput";
 import BROWSER_STORAGE from "@/src/constants/browserStorage";
+import authAPIAction from "@/src/actions/auth/authAPIAction";
 
 interface Props {
     email: string;

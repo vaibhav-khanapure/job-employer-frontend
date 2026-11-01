@@ -3,7 +3,6 @@ import Loaders from "@/src/components/common/loaders/loaders";
 import APP from "@/src/constants/app";
 import { useMutation } from "@tanstack/react-query";
 import { Fragment, type SubmitEvent, useState } from "react";
-import authAPIAction from "../../../../../../actions/auth/authAPIAction";
 import toast from "@/src/lib/toast";
 import useAuthStore from "@/src/store/authStore";
 import useUserStore from "@/src/store/userStore";
@@ -13,6 +12,7 @@ import useCompanyStore from "@/src/store/companyStore";
 import { useRouter } from "next/navigation";
 import useSchemaValidator from "@/src/hooks/useSchemaValidator";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
+import authAPIAction from "@/src/actions/auth/authAPIAction";
 
 const GoogleRegisterModal = () => {
     const [company, setCompany] = useState('');
