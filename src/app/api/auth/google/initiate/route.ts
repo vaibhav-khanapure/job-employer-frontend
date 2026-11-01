@@ -1,14 +1,13 @@
 import BROWSER_STORAGE from "@/src/constants/browserStorage";
 import serverAPI from "@/src/lib/serverAPI";
 import getAPIError from "@/src/utils/server/api/getAPIError";
+import getClientInfoAndHeaders from "@/src/utils/server/api/getClientInfoAndHeaders";
 import { cookies } from "next/headers";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
     try {
-        const clientIp =
-            request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-            request.headers.get("x-real-ip");
+        const { clientIp } = getClientInfoAndHeaders(request);
 
         if (!clientIp) {
             return NextResponse.json({ message: "Invalid client source" }, { status: 400 });

@@ -5,6 +5,7 @@ import schemaValidator from "@/src/utils/validators/schemaValidator";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
 import BROWSER_STORAGE from "@/src/constants/browserStorage";
 import getAPIError from "@/src/utils/server/api/getAPIError";
+import getClientInfoAndHeaders from "@/src/utils/server/api/getClientInfoAndHeaders";
 
 export async function POST(request: NextRequest) {
     try {
@@ -19,9 +20,7 @@ export async function POST(request: NextRequest) {
             );
         };
 
-        const clientIp =
-            request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-            request.headers.get("x-real-ip");
+        const { headers, clientIp } = getClientInfoAndHeaders(request);
 
         if (!clientIp) {
             return NextResponse.json({ message: "Invalid client source" }, { status: 400 });
@@ -36,8 +35,6 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ message: "Session expired" }, { status: 400 });
         };
 
-        const userAgent = request.headers.get("user-agent");
-
         const { data, status } = await serverAPI.post(
             "/auth/google/register",
             {
@@ -45,12 +42,7 @@ export async function POST(request: NextRequest) {
                 googleCode: googleProvidedCode?.value,
                 companyName: values?.company
             },
-            {
-                headers: {
-                    "x-client-ip": clientIp,
-                    "x-client-user-agent": userAgent,
-                }
-            }
+            { headers }
         );
 
         const { refreshToken, ...userData } = data;

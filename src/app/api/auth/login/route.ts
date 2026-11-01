@@ -1,6 +1,7 @@
 import BROWSER_STORAGE from "@/src/constants/browserStorage";
 import serverAPI from "@/src/lib/serverAPI";
 import getAPIError from "@/src/utils/server/api/getAPIError";
+import getClientInfoAndHeaders from "@/src/utils/server/api/getClientInfoAndHeaders";
 import schemaValidator from "@/src/utils/validators/schemaValidator";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
 import { cookies } from "next/headers";
@@ -19,21 +20,12 @@ export async function POST(request: NextRequest) {
             );
         };
 
-        const clientIp =
-            request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-            request.headers.get("x-real-ip");
-
-        const userAgent = request.headers.get("user-agent");
+        const { headers } = getClientInfoAndHeaders(request);
 
         const { data, status } = await serverAPI.post(
             "/auth/login",
             values,
-            {
-                headers: {
-                    "x-client-ip": clientIp,
-                    "x-client-user-agent": userAgent,
-                }
-            }
+            { headers }
         );
 
         const { refreshToken, ...userData } = data;

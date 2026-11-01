@@ -1,34 +1,26 @@
 import BROWSER_STORAGE from "@/src/constants/browserStorage";
 import serverAPI from "@/src/lib/serverAPI";
 import getAPIError from "@/src/utils/server/api/getAPIError";
+import getClientInfoAndHeaders from "@/src/utils/server/api/getClientInfoAndHeaders";
 import { cookies } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
     try {
-       const cookieStore = await cookies();
+        const cookieStore = await cookies();
 
         const currentRefreshToken = cookieStore.get(BROWSER_STORAGE.COOKIES.AUTH.REFRESH_TOKEN);
 
         if (!currentRefreshToken) {
-            return NextResponse.json({ message: "Unauthorized" }, { status: 500 });
+            return NextResponse.json({ message: "Session expired, please sign in again" }, { status: 500 });
         };
 
-        const clientIp =
-            request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-            request.headers.get("x-real-ip");
-
-        const userAgent = request.headers.get("user-agent");
+        const { headers } = getClientInfoAndHeaders(request);
 
         const { data, status } = await serverAPI.post(
             "/auth/verify",
             { refreshToken: currentRefreshToken?.value },
-            {
-                headers: {
-                    "x-client-ip": clientIp,
-                    "x-client-user-agent": userAgent,
-                }
-            });
+            { headers });
 
         const { refreshToken, ...userData } = data;
 

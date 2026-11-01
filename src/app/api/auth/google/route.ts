@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { NextResponse, type NextRequest, } from "next/server";
 import BROWSER_STORAGE from "@/src/constants/browserStorage";
 import getAPIError from "@/src/utils/server/api/getAPIError";
+import getClientInfoAndHeaders from "@/src/utils/server/api/getClientInfoAndHeaders";
 
 export async function POST(request: NextRequest) {
     try {
@@ -12,9 +13,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ message: "Invalid data" }, { status: 400 });
         };
 
-        const clientIp =
-            request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-            request.headers.get("x-real-ip");
+        const { headers, clientIp } = getClientInfoAndHeaders(request);
 
         if (!clientIp) {
             return NextResponse.json({ message: "Invalid client source" }, { status: 400 });
@@ -28,20 +27,13 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ message: "Session expired" }, { status: 400 });
         };
 
-        const userAgent = request.headers.get("user-agent");
-
         const { data, status } = await serverAPI.post(
             "/auth/google",
             {
                 code: googleCodeCookie?.value,
                 googleCode: code
             },
-            {
-                headers: {
-                    "x-client-ip": clientIp,
-                    "x-client-user-agent": userAgent,
-                }
-            }
+            { headers }
         );
 
         if (status === 204) {
