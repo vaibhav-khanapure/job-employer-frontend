@@ -4,7 +4,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { useMutation } from "@tanstack/react-query";
 import { Fragment, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
-import authAPIAction from "../../../actions/authAPIAction";
+import authAPIAction from "../../../../../../actions/auth/authAPIAction";
 import toast from "@/src/lib/toast";
 import useAuthStore from "@/src/store/authStore";
 import useUserStore from "@/src/store/userStore";

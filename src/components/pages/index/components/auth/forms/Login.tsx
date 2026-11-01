@@ -11,7 +11,7 @@ import PasswordInput from "@/src/components/common/inputs/PasswordInput";
 import Loaders from "@/src/components/common/loaders/loaders";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
 import GoogleSignInButton from "../components/GoogleSignInButton";
-import authAPIAction from "../../../actions/authAPIAction";
+import authAPIAction from "../../../../../../actions/auth/authAPIAction";
 import useCompanyStore from "@/src/store/companyStore";
 import BROWSER_STORAGE from "@/src/constants/browserStorage";
 

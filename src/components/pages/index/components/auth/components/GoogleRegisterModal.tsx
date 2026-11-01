@@ -3,7 +3,7 @@ import Loaders from "@/src/components/common/loaders/loaders";
 import APP from "@/src/constants/app";
 import { useMutation } from "@tanstack/react-query";
 import { Fragment, type SubmitEvent, useState } from "react";
-import authAPIAction from "../../../actions/authAPIAction";
+import authAPIAction from "../../../../../../actions/auth/authAPIAction";
 import toast from "@/src/lib/toast";
 import useAuthStore from "@/src/store/authStore";
 import useUserStore from "@/src/store/userStore";
@@ -57,7 +57,7 @@ const GoogleRegisterModal = () => {
 
             toast.success("Registration completed successfully!");
 
-            // replace("/home"); 
+            replace("/home");
         }
     });
 
