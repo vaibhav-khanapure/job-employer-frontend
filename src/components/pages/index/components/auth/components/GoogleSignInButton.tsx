@@ -107,7 +107,7 @@ const GoogleSignInButton = () => {
             {isPending ? "Initiating" : loading ? "Signing in..." : (
                 <Fragment>
                     <FaGoogle />
-                    <span>Continue with Google</span>
+                    <span className="text-sm">Continue with Google</span>
                 </Fragment>
             )}
         </button>

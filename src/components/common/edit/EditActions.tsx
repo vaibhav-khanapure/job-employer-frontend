@@ -14,8 +14,8 @@ const EditActions = ({ handleOnSave, isLoading, title }: Props) => {
     const [isEditing, setIsEditing] = useState(false);
 
     return (
-        <div className={`flex items-center ${title ? "justify-between" : "justify-end"}`}>
-            {title && <h5 className="font-semibold text-primary/80">{title}</h5>}
+        <div className={`flex items-center pb-2 border-b border-zinc-200 ${title ? "justify-between" : "justify-end"}`}>
+            {title && <h5 className="font-bold text-lg text-primary/80">{title}</h5>}
 
             {isLoading ? <Spinner /> : (
                 <Fragment>
