@@ -1,7 +1,8 @@
-import { Fragment, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import ReactQueryProvider from "./ReactQueryProvider";
 import GoogleAuthProvider from "./GoogleAuthProvider";
 import VerifyAuthProvider from "./VerifyAuthProvider";
+import AccessTokenRegenerationProvider from "./AccessTokenRegenerationProvider";
 
 interface Props {
     children: ReactNode;
@@ -9,15 +10,15 @@ interface Props {
 
 const AppProviders = ({ children }: Props) => {
     return (
-        <Fragment>
-            <GoogleAuthProvider>
-                <ReactQueryProvider>
+        <GoogleAuthProvider>
+            <ReactQueryProvider>
+                <AccessTokenRegenerationProvider>
                     <VerifyAuthProvider>
                         {children}
                     </VerifyAuthProvider>
-                </ReactQueryProvider>
-            </GoogleAuthProvider>
-        </Fragment>
+                </AccessTokenRegenerationProvider>
+            </ReactQueryProvider>
+        </GoogleAuthProvider>
     );
 };
 

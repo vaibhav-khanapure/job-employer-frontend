@@ -20,7 +20,8 @@ export async function POST(request: NextRequest) {
         const { data, status } = await serverAPI.post(
             "/auth/verify",
             { refreshToken: currentRefreshToken?.value },
-            { headers });
+            { headers }
+        );
 
         const { refreshToken, ...userData } = data;
 
