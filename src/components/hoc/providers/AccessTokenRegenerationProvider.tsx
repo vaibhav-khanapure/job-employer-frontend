@@ -1,3 +1,5 @@
+"use client";
+
 import authAPIAction from "@/src/actions/auth/authAPIAction";
 import pageLoader from "@/src/actions/loaders/pageLoader";
 import toast from "@/src/lib/toast";
