@@ -26,7 +26,12 @@ export async function POST(request: NextRequest) {
         const { data, status } = await serverAPI.post(
             "/auth/regenerate/access-token",
             { refreshToken: refreshToken?.value },
-            { headers }
+            {
+                headers: {
+                    ...headers,
+                    Authorization: `Bearer ${body?.accessToken}`
+                }
+            }
         );
 
         if (!data?.accessToken) {

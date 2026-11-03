@@ -8,19 +8,28 @@ import handleLogout from "@/src/utils/auth/handleLogout";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useRef, type ReactNode } from "react";
+import { useShallow } from "zustand/shallow";
 
 interface Props {
     children: ReactNode;
 };
 
 const AccessTokenRegenerationProvider = ({ children }: Props) => {
-    const shouldRegenerateAccessToken = useAuthStore(state => state?.shouldRegenerateAccessToken);
+    const { accessToken, shouldRegenerateAccessToken } = useAuthStore(
+        useShallow(state => ({
+            accessToken: state.accessToken,
+            shouldRegenerateAccessToken: state.shouldRegenerateAccessToken
+        }))
+    );
+
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
     const { replace } = useRouter();
 
     const { mutate } = useMutation({
-        mutationFn: () => authAPIAction("/regenerate-access", {}),
+        mutationFn: () => authAPIAction("/regenerate-access", {
+            data: { accessToken }
+        }),
         onSuccess: (result) => {
             const accessToken = result?.data?.accessToken;
 
