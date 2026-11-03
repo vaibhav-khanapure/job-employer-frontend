@@ -1,5 +1,3 @@
-"use client";
-
 import EditActions from "@/src/components/common/edit/EditActions";
 
 const ProfileTop = () => {

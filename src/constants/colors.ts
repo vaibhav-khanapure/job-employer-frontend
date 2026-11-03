@@ -1,5 +1,5 @@
 const COLORS = {
-    PRIMARY: "#111",
+    PRIMARY: "oklch(21% 0.006 285.885)",
 
     toast: {
         error: "#DC2626",

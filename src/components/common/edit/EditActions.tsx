@@ -2,7 +2,8 @@
 
 import { BiEdit } from "react-icons/bi";
 import { Fragment, useState } from "react";
-import Spinner from "../loaders/Spinner";
+import Loaders from "../loaders/loaders";
+import COLORS from "@/src/constants/colors";
 
 interface Props {
     handleOnSave: () => void;
@@ -17,7 +18,7 @@ const EditActions = ({ handleOnSave, isLoading, title }: Props) => {
         <div className={`flex items-center pb-2 border-b border-border-primary ${title ? "justify-between" : "justify-end"}`}>
             {title && <h5 className="font-bold text-lg text-text-primary/80">{title}</h5>}
 
-            {isLoading ? <Spinner /> : (
+            {isLoading ? <Loaders.Spinner color={COLORS.PRIMARY} /> : (
                 <Fragment>
                     {isEditing ? (
                         <div className="flex gap-2 items-center justify-end">

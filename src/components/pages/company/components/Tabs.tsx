@@ -63,7 +63,7 @@ const Tabs = ({ currentActiveTab, handleUpdateActiveTab }: Props) => {
                 <li
                     key={`company-tab-${index}`}
                     data-tab={tab?.name}
-                    className={currentActiveTab === tab.name ? 'text-primary' : 'text-text-tertiary hover:text-text-primary'}
+                    className={`text-sm ${currentActiveTab === tab.name ? 'text-primary' : 'text-text-tertiary hover:text-text-primary'}`}
                     onClick={(e) => handleChangeTab(e, tab?.name)}
                 >
                     {tab?.name}

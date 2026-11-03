@@ -9,7 +9,7 @@ const MainSidebar = () => {
     const pathname = usePathname();
 
     return (
-        <aside className="flex flex-col w-64 min-h-screen bg-bg-primary border-r border-border-primary">
+        <aside className="flex flex-col w-64 h-screen sticky top-0 bg-bg-primary border-r border-border-primary">
 
             {/* Brand */}
             <div className="flex items-center h-16 px-6 border-b border-border-primary">

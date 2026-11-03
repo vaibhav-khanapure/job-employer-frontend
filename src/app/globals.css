@@ -4,7 +4,7 @@
   --background: #ffffff;
   --foreground: #171717;
 
-  --brand-primary: #111;
+  --brand-primary: oklch(21% 0.006 285.885);
   --brand-error: #DC2626;
   --brand-bg-primary: #fff;
   --brand-bg-secondary: #f4f2ee;

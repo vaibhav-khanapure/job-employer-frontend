@@ -102,7 +102,7 @@ const GoogleSignInButton = () => {
                        hover:bg-bg-secondary disabled:cursor-not-allowed
                        disabled:opacity-60"
         >
-            {isPending ? "Initiating" : loading ? "Signing in..." : (
+            {isPending ? <span className="text-[13px]">Initiating</span> : loading ? <span className="text-[13px]">Initiating</span> : (
                 <Fragment>
                     <FaGoogle size={16} />
                     <span className="text-[13px]">Continue with Google</span>
