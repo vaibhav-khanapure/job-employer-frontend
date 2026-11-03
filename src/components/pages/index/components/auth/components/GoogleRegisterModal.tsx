@@ -30,7 +30,7 @@ const GoogleRegisterModal = () => {
         },
         onError: (error) => toast.error(error?.errorMessage),
         onSuccess: (result) => {
-            const { accessToken, company, companySlug, email, name } = result?.data;
+            const { accessToken, company, companySlug, email, name, role } = result?.data;
 
             useAuthStore.setState({
                 accessToken,
@@ -49,7 +49,7 @@ const GoogleRegisterModal = () => {
                 user: {
                     email,
                     name,
-                    role: "admin"
+                    role
                 }
             });
 
