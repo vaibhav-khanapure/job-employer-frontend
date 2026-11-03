@@ -58,7 +58,7 @@ const VerifyAuthProvider = ({ children }: Props) => {
 
             localStorage.setItem(BROWSER_STORAGE.LOCAL.USER_SIGNED_IN, '1');
 
-            replace("/home");
+            if (pathname === "/")  replace("/home");
         }
     });
 
