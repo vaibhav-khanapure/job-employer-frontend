@@ -11,7 +11,7 @@ const Company = () => {
     <main>
       <ProfileTop />
 
-      <div className="p-6 mt-6 rounded-md bg-white border border-zinc-200">
+      <div className="p-6 mt-6 rounded-md bg-bg-primary border border-border-primary">
         <Tabs currentActiveTab={currentActiveTab} handleUpdateActiveTab={(tab: string) => setCurrentActiveTab(tab)} />
       </div>
     </main>

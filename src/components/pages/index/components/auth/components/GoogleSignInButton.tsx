@@ -67,8 +67,6 @@ const GoogleSignInButton = () => {
                     replace("/home");
                 };
             } catch (error) {
-                console.log('errororoorror', error);
-
                 if (typeof error === 'object' && error !== null && 'errorMessage' in error) {
                     toast.error(String(error?.errorMessage));
                 } else {
@@ -99,15 +97,15 @@ const GoogleSignInButton = () => {
             disabled={isPending || loading}
             onClick={() => mutate()}
             className="w-full flex items-center justify-center gap-3 rounded-md
-                       border border-gray-300 bg-white px-4 py-2.5
-                       font-medium text-gray-700 transition
-                       hover:bg-gray-50 disabled:cursor-not-allowed
+                       border border-border-primary bg-bg-primary px-4 py-2.5
+                       font-medium text-text-secondary transition
+                       hover:bg-bg-secondary disabled:cursor-not-allowed
                        disabled:opacity-60"
         >
             {isPending ? "Initiating" : loading ? "Signing in..." : (
                 <Fragment>
-                    <FaGoogle />
-                    <span className="text-sm">Continue with Google</span>
+                    <FaGoogle size={16} />
+                    <span className="text-[13px]">Continue with Google</span>
                 </Fragment>
             )}
         </button>

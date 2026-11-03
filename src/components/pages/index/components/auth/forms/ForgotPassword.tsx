@@ -3,10 +3,10 @@ import API from "@/src/lib/API";
 import toast from "@/src/lib/toast";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
 import { useMutation } from "@tanstack/react-query";
-import { Fragment, SubmitEvent, useState } from "react";
+import { type SubmitEvent, useState } from "react";
 import type { AuthFormType } from "../../../types/auth.types";
 import TextInput from "@/src/components/common/inputs/TextInput";
-import Loaders from "@/src/components/common/loaders/loaders";
+import AuthButton from "../components/AuthButton";
 
 interface Props {
     handleChangeForm: (type: AuthFormType) => void;
@@ -57,24 +57,8 @@ const ForgotPassword = ({ handleChangeForm, handleUpdateEmail }: Props) => {
                 onChange={e => setEmail(e.target.value)}
             />
 
-            <button type="submit" className="btn" disabled={isPending}>
-                {isPending ? <Loaders.Spinner className="size-2" /> : (
-                    <Fragment>
-                        Send code to email &nbsp;
-                        <span aria-hidden="true"> →</span>
-                    </Fragment>
-                )}
-            </button>
+            <AuthButton isPending={isPending} text="Send code to email" />
 
-            <p className="text-sm text-center text-gray-400">
-                Don't have an account?{' '}
-                <span
-                    onClick={() => handleChangeForm("register")}
-                    className="label cursor-pointer underline text-gray-800 hover:text-primary"
-                >
-                    Create account
-                </span>
-            </p>
         </form>
     );
 };

@@ -5,9 +5,9 @@ import BROWSER_STORAGE from './constants/browserStorage';
 export const config = {
     matcher: [
         // Guest Routes
-        '/',
+        "/",
         // Auth Routes
-        '/home'
+        "/home", "/company"
     ],
 };
 

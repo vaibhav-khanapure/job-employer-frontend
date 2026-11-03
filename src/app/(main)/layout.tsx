@@ -10,7 +10,7 @@ const Layout = ({ children }: Props) => {
     return (
         <main className="flex">
             <MainSidebar />
-            <div className="flex-1">
+            <div className="flex-1 bg-bg-secondary">
                 <Topbar />
                 <div className="p-6">
                     {children}

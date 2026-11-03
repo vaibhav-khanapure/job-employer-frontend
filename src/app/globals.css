@@ -5,18 +5,40 @@
   --foreground: #171717;
 
   --brand-primary: #111;
-  --brand-error: #E02802;
+  --brand-error: #DC2626;
+  --brand-bg-primary: #fff;
+  --brand-bg-secondary: #f4f2ee;
 
   /* --brand-primary: #2563eb; */
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* Text */
+  --color-text-primary: var(--color-zinc-900);
+  --color-text-secondary: var(--color-gray-600);
+  --color-text-tertiary: var(--color-neutral-500);
+  --color-text-muted: var(--color-gray-400);
 
-  --color-primary: var(--brand-primary);
+  /* Brand */
+  --color-primary: var(--color-zinc-900);
+  --color-secondary: var(--color-gray-400);
   --color-error: var(--brand-error);
 
+  /* Background */
+  --color-bg-primary: var(--brand-bg-primary);
+  --color-bg-secondary: var(--brand-bg-secondary);
+
+  /* Borders */
+  --color-border-primary: var(--color-zinc-200);
+
+  /* Sidebar */
+  --color-sidebar-link-bg-active: var(--color-gray-100);
+  --color-sidebar-link-text: var(--color-zinc-600);
+  --color-sidebar-link-text-active: var(--color-primary);
+  --color-sidebar-link-bg-hover: var(--color-zinc-100);
+  --color-sidebar-link-text-hover: var(--color-primary);
+
+  /* Typography */
   --font-sans: var(--font-google-sans);
 }
 
@@ -45,7 +67,7 @@ button:disabled {
 
 @layer components {
   .input {
-    @apply p-3 text-sm rounded-md w-full outline-none border border-gray-300 focus:border-gray-600;
+    @apply p-3 text-sm rounded-md w-full outline-none border border-border-primary focus:border-secondary;
   }
 
   .btn {

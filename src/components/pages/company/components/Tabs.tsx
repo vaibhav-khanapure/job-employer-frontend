@@ -1,5 +1,5 @@
 import { type MouseEvent, useEffect, useRef, useState } from 'react';
-import tabs from '../data/tabs'
+import tabs from '../data/tabs';
 
 interface Props {
     currentActiveTab: string;
@@ -63,7 +63,7 @@ const Tabs = ({ currentActiveTab, handleUpdateActiveTab }: Props) => {
                 <li
                     key={`company-tab-${index}`}
                     data-tab={tab?.name}
-                    className={currentActiveTab === tab.name ? 'text-black' : 'text-neutral-500 hover:text-black'}
+                    className={currentActiveTab === tab.name ? 'text-primary' : 'text-text-tertiary hover:text-text-primary'}
                     onClick={(e) => handleChangeTab(e, tab?.name)}
                 >
                     {tab?.name}
@@ -71,8 +71,9 @@ const Tabs = ({ currentActiveTab, handleUpdateActiveTab }: Props) => {
             ))}
 
             <div
-                className="absolute bottom-0 border-b-3 border-black transition-all duration-300 ease-in-out pointer-events-none"
+                className="absolute bottom-0 p-0! transition-all duration-300 ease-in-out pointer-events-none bg-primary"
                 style={{
+                    height: 3,
                     left: indicator.left,
                     width: indicator.width,
                 }}

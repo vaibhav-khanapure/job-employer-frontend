@@ -9,13 +9,13 @@ const MainSidebar = () => {
     const pathname = usePathname();
 
     return (
-        <aside className="flex flex-col w-64 min-h-screen bg-white border-r border-zinc-200">
+        <aside className="flex flex-col w-64 min-h-screen bg-bg-primary border-r border-border-primary">
 
             {/* Brand */}
-            <div className="flex items-center h-16 px-6 border-b border-gray-200">
-                <h2 className="text-[23px] font-bold tracking-tight text-zinc-900">
+            <div className="flex items-center h-16 px-6 border-b border-border-primary">
+                <h2 className="text-[23px] font-bold tracking-tight text-text-primary">
                     {APP.APP_NAME}
-                    <span className="text-primary">.</span>
+                    <span className="text-text-primary">.</span>
                 </h2>
             </div>
 
@@ -24,7 +24,7 @@ const MainSidebar = () => {
                 {navLinks.map((section, sectionIndex) => (
                     <div key={`section-link-${sectionIndex}`} className="flex flex-col gap-1">
                         {section.title && (
-                            <p className="px-3 mb-2 text-xs tracking-wider font-medium text-zinc-400">
+                            <p className="px-3 mb-2 text-xs tracking-wider font-medium text-text-muted">
                                 {section.title}
                             </p>
                         )}
@@ -37,7 +37,7 @@ const MainSidebar = () => {
 
                             return (
                                 <NavLink
-                                    key={link.path}
+                                    key={`navlink-${link.path}`}
                                     name={link.name}
                                     path={link.path}
                                     active={isActive}

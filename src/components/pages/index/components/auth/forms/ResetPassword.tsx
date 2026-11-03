@@ -1,4 +1,4 @@
-import { Fragment, type SubmitEvent, useState } from "react";
+import { type SubmitEvent, useState } from "react";
 import type { AuthFormType } from "../../../types/auth.types";
 import useSchemaValidator from "@/src/hooks/useSchemaValidator";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
@@ -7,7 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import toast from "@/src/lib/toast";
 import TextInput from "@/src/components/common/inputs/TextInput";
 import PasswordInput from "@/src/components/common/inputs/PasswordInput";
-import Loaders from "@/src/components/common/loaders/loaders";
+import AuthButton from "../components/AuthButton";
 
 interface Props {
     email: string;
@@ -86,24 +86,8 @@ const ResetPassword = ({ email, handleChangeForm }: Props) => {
                 onChange={e => setUser(prev => ({ ...prev, confirmPassword: e.target.value }))}
             />
 
-            <button type="submit" className="btn" disabled={isPending}>
-                {isPending ? <Loaders.Spinner className="size-2" /> : (
-                    <Fragment>
-                        Reset Password &nbsp;
-                        <span aria-hidden="true"> →</span>
-                    </Fragment>
-                )}
-            </button>
+            <AuthButton isPending={isPending} text="Reset password" />
 
-            <p className="text-sm text-center text-gray-400">
-                Remember your password?{' '}
-                <span
-                    onClick={() => handleChangeForm("login")}
-                    className="label cursor-pointer underline text-gray-800 hover:text-primary"
-                >
-                    Sign In
-                </span>
-            </p>
         </form>
     );
 };

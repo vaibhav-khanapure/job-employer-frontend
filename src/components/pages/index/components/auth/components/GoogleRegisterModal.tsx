@@ -79,8 +79,8 @@ const GoogleRegisterModal = () => {
     };
 
     return (
-        <div className='fixed top-0 left-0 h-screen w-full grid place-items-center bg-black/20'>
-            <form className="p-6 max-w-100 w-full rounded-lg shadow-xl bg-white" onSubmit={handleSubmit}>
+        <div className='fixed top-0 left-0 h-screen w-full grid place-items-center bg-primary/20'>
+            <form className="p-6 max-w-100 w-full rounded-lg shadow-xl bg-bg-primary" onSubmit={handleSubmit}>
 
                 <div className="flex justify-between mb-4">
                     <div>
@@ -88,14 +88,14 @@ const GoogleRegisterModal = () => {
                             Add your company name
                         </h1>
 
-                        <p className="text-sm text-gray-500 mt-2 leading-relaxed">
+                        <p className="text-sm text-text-secondary mt-2 leading-relaxed">
                             Just one more step! Enter your company name to complete your
                             employer account registration.
                         </p>
                     </div>
 
                     <div
-                        className="size-10 min-h-10 min-w-10 grid place-items-center rounded-full cursor-pointer hover:bg-gray-50"
+                        className="size-10 min-h-10 min-w-10 grid place-items-center rounded-full cursor-pointer hover:bg-bg-secondary"
                         onClick={handleClose}
                     >
                         <IoCloseOutline size={24} />

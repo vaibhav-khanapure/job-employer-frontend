@@ -7,8 +7,10 @@ const Topbar = () => {
     const currentPage = pathname.split("/")?.at(-1);
 
     return (
-        <header className="h-16 flex capitalize items-center px-4 border-b border-gray-200 bg-white">
-            <span className="text-sm font-medium">{currentPage}</span>
+        <header className="h-16 flex capitalize items-center px-6 border-b border-border-primary bg-bg-primary">
+            <span className="text-xs tracking-widest font-semibold uppercase text-text-muted">
+                {currentPage}
+            </span>
         </header>
     );
 };

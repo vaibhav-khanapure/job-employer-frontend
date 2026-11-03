@@ -1,5 +1,4 @@
-import { Fragment, type SubmitEvent, useState } from "react";
-import type { AuthFormType } from "../../../types/auth.types";
+import { type SubmitEvent, useState } from "react";
 import useSchemaValidator from "@/src/hooks/useSchemaValidator";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
 import { useMutation } from "@tanstack/react-query";
@@ -8,8 +7,8 @@ import toast from "@/src/lib/toast";
 import TextInput from "@/src/components/common/inputs/TextInput";
 import PasswordInput from "@/src/components/common/inputs/PasswordInput";
 import APP from "@/src/constants/app";
-import GoogleSignInButton from "../components/GoogleSignInButton";
-import Loaders from "@/src/components/common/loaders/loaders";
+import AuthButton from "../components/AuthButton";
+import type { AuthFormType } from "../../../types/auth.types";
 
 interface Props {
     handleChangeForm: (type: AuthFormType) => void;
@@ -98,34 +97,7 @@ const Register = ({ handleChangeForm, handleUpdateEmail }: Props) => {
                 onChange={e => setUser(prev => ({ ...prev, password: e.target.value }))}
             />
 
-            <button type="submit" className="btn" disabled={isPending}>
-                {isPending ? <Loaders.Spinner className="size-2" /> : (
-                    <Fragment>
-                        Create my account &nbsp;
-                        <span aria-hidden="true"> →</span>
-                    </Fragment>
-                )}
-            </button>
-
-            <div className="flex items-center gap-4 -my-1">
-                <hr className="flex-1 border-0 border-t border-gray-200" />
-                <span className="text-sm tracking-wider text-gray-400">
-                    or
-                </span>
-                <hr className="flex-1 border-0 border-t border-gray-200" />
-            </div>
-
-            <GoogleSignInButton />
-
-            <p className="text-sm text-center text-gray-400">
-                Already have an account?{' '}
-                <span
-                    onClick={() => handleChangeForm("login")}
-                    className="label cursor-pointer underline text-gray-800 hover:text-primary"
-                >
-                    Sign In
-                </span>
-            </p>
+            <AuthButton isPending={isPending} text="Create my account" />
 
         </form>
     );

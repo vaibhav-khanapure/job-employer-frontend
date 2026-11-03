@@ -34,7 +34,7 @@ const PasswordInput = ({ label, error, className, ref, maxLength = 30, LabelRigh
 
                 <button
                     type="button"
-                    className="absolute inset-y-0 right-3 text-sm font-semibold text-gray-500 transition-colors hover:text-primary"
+                    className="absolute inset-y-0 right-3 text-sm font-semibold text-text-muted transition-colors hover:text-text-primary"
                     onClick={() => setShowPassword(prev => !prev)}
                 >
                     {showPassword ? 'Hide' : 'Show'}

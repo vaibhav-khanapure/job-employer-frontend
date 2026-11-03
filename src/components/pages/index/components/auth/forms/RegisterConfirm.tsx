@@ -1,6 +1,5 @@
 import type { ChangeEvent, ClipboardEvent, KeyboardEvent, SubmitEvent } from "react";
 import { Fragment, useEffect, useRef, useState } from "react";
-import type { AuthFormType } from "../../../types/auth.types";
 import { useRouter } from "next/navigation";
 import useSchemaValidator from "@/src/hooks/useSchemaValidator";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
@@ -15,13 +14,13 @@ import useCompanyStore from "@/src/store/companyStore";
 import CodeInput from "@/src/components/common/inputs/CodeInput";
 import BROWSER_STORAGE from "@/src/constants/browserStorage";
 import authAPIAction from "@/src/actions/auth/authAPIAction";
+import AuthButton from "../components/AuthButton";
 
 interface Props {
     email: string;
-    handleChangeForm: (type: AuthFormType) => void;
 };
 
-const RegisterConfirm = ({ email, handleChangeForm }: Props) => {
+const RegisterConfirm = ({ email }: Props) => {
     const [code, setCode] = useState<string[]>(Array(6).fill(""));
     const [resendTimer, setResendTimer] = useState(60);
 
@@ -181,14 +180,14 @@ const RegisterConfirm = ({ email, handleChangeForm }: Props) => {
 
             <div className="-mt-2 text-right mb-2">
                 <div
-                    className={`text-sm text-gray-400 ${resendTimer === 0 ? "cursor-pointer underline font-medium hover:text-primary" : ""}`}
+                    className={`text-sm text-text-muted ${resendTimer === 0 ? "cursor-pointer underline font-medium hover:text-text-primary" : ""}`}
                     onClick={() => handleSendCodeAgain()}
                 >
                     {isLoading ? <Loaders.Spinner /> : (
                         <Fragment>
                             Resend code {resendTimer === 0 ? null : (
                                 <span>in {' '}
-                                    <b className="text-primary w-4 inline-block">{resendTimer > 9 ? resendTimer : `0${resendTimer}`}</b>
+                                    <b className="text-text-primary w-4 inline-block">{resendTimer > 9 ? resendTimer : `0${resendTimer}`}</b>
                                 </span>
                             )}
                         </Fragment>
@@ -196,24 +195,8 @@ const RegisterConfirm = ({ email, handleChangeForm }: Props) => {
                 </div>
             </div>
 
-            <button type="submit" className="btn" disabled={isPending}>
-                {isPending ? <Loaders.Spinner className="size-2" /> : (
-                    <Fragment>
-                        Create my account &nbsp;
-                        <span aria-hidden="true"> →</span>
-                    </Fragment>
-                )}
-            </button>
+            <AuthButton isPending={isPending} text="Create my account" />
 
-            <p className="text-sm text-center text-gray-400">
-                Already have an account?{' '}
-                <span
-                    onClick={() => handleChangeForm("login")}
-                    className="label cursor-pointer underline text-gray-800 hover:text-primary"
-                >
-                    Sign In
-                </span>
-            </p>
         </form>
     );
 };
