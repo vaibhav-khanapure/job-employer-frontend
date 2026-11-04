@@ -83,16 +83,6 @@ const GoogleRegisterModal = () => {
     return (
         <Modal>
             <form onSubmit={handleSubmit}>
-                {/* Close button */}
-                <button
-                    type="button"
-                    onClick={handleClose}
-                    aria-label="Close"
-                    className="absolute right-5 top-5 grid size-9 place-items-center rounded-full text-text-secondary transition-all hover:bg-bg-secondary hover:text-text-primary"
-                >
-                    <IoCloseOutline size={22} />
-                </button>
-
                 {/* Header icon */}
                 <div className="mb-6 grid size-14 place-items-center rounded-2xl border border-border-primary text-text-tertiary">
                     <LuBuilding2 size={24} />
