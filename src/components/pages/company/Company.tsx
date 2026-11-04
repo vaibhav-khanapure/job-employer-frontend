@@ -5,6 +5,7 @@ import ProfileTop from "./components/ProfileTop";
 import Tabs from "./components/Tabs";
 import Info from "./components/tabs/Info";
 import About from "./components/tabs/About";
+import Contact from "./components/tabs/Contact";
 
 const Company = () => {
   const [currentActiveTab, setCurrentActiveTab] = useState("Info");
@@ -19,6 +20,7 @@ const Company = () => {
         <div className="p-4 mt-6 rounded-xl border border-border-primary">
           {currentActiveTab === "Info" && <Info />}
           {currentActiveTab === "About" && <About />}
+          {currentActiveTab === "Contact & Address" && <Contact />}
         </div>
       </div>
     </main>

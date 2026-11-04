@@ -26,7 +26,7 @@ const About = () => {
                 icon={<MdOutlineDescription size={24} />}
                 title="Tell your company’s story"
                 subtitle="Tell candidates what your company does, what drives your team, and what makes your workplace unique."
-                action={<NoContentButton text="Add about yourself" onClick={() => { }} />}
+                action={<NoContentButton text="Write your company story" onClick={() => { }} />}
             />
 
             <TipTapTextEditor
