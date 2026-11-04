@@ -1,12 +1,15 @@
 const tabs = [
     {
-        name: "Info",
+        name: "Info"
     },
     {
-        name: "About",
+        name: "About"
     },
     {
         name: "Contact & Address"
+    },
+    {
+        name: "Social Medias"
     },
     {
         name: "Benefits"

@@ -6,6 +6,7 @@ import Tabs from "./components/Tabs";
 import Info from "./components/tabs/Info";
 import About from "./components/tabs/About";
 import Contact from "./components/tabs/Contact";
+import SocialMedias from "./components/tabs/SocialMedias";
 
 const Company = () => {
   const [currentActiveTab, setCurrentActiveTab] = useState("Info");
@@ -21,6 +22,7 @@ const Company = () => {
           {currentActiveTab === "Info" && <Info />}
           {currentActiveTab === "About" && <About />}
           {currentActiveTab === "Contact & Address" && <Contact />}
+          {currentActiveTab === "Social Medias" && <SocialMedias />}
         </div>
       </div>
     </main>
