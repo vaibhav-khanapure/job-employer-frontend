@@ -1,8 +1,7 @@
 import TextInput from "@/src/components/common/inputs/TextInput";
-import Loaders from "@/src/components/common/loaders/loaders";
 import APP from "@/src/constants/app";
 import { useMutation } from "@tanstack/react-query";
-import { Fragment, type SubmitEvent, useState } from "react";
+import { type SubmitEvent, useState } from "react";
 import toast from "@/src/lib/toast";
 import useAuthStore from "@/src/store/authStore";
 import useUserStore from "@/src/store/userStore";
@@ -13,6 +12,9 @@ import { useRouter } from "next/navigation";
 import useSchemaValidator from "@/src/hooks/useSchemaValidator";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
 import authAPIAction from "@/src/actions/auth/authAPIAction";
+import { LuBuilding2 } from "react-icons/lu";
+import AuthButton from "./AuthButton";
+import Modal from "@/src/components/common/modals/Modal";
 
 const GoogleRegisterModal = () => {
     const [company, setCompany] = useState('');
@@ -79,29 +81,36 @@ const GoogleRegisterModal = () => {
     };
 
     return (
-        <div className='fixed top-0 left-0 h-screen w-full grid place-items-center bg-primary/20'>
-            <form className="p-6 max-w-100 w-full rounded-lg shadow-xl bg-bg-primary" onSubmit={handleSubmit}>
+        <Modal>
+            <form onSubmit={handleSubmit}>
+                {/* Close button */}
+                <button
+                    type="button"
+                    onClick={handleClose}
+                    aria-label="Close"
+                    className="absolute right-5 top-5 grid size-9 place-items-center rounded-full text-text-secondary transition-all hover:bg-bg-secondary hover:text-text-primary"
+                >
+                    <IoCloseOutline size={22} />
+                </button>
 
-                <div className="flex justify-between mb-4">
-                    <div>
-                        <h1 className="text-2xl font-bold tracking-tight">
-                            Add your company name
-                        </h1>
-
-                        <p className="text-sm text-text-secondary mt-2 leading-relaxed">
-                            Just one more step! Enter your company name to complete your
-                            employer account registration.
-                        </p>
-                    </div>
-
-                    <div
-                        className="size-10 min-h-10 min-w-10 grid place-items-center rounded-full cursor-pointer hover:bg-bg-secondary"
-                        onClick={handleClose}
-                    >
-                        <IoCloseOutline size={24} />
-                    </div>
+                {/* Header icon */}
+                <div className="mb-6 grid size-14 place-items-center rounded-2xl border border-border-primary text-text-tertiary">
+                    <LuBuilding2 size={24} />
                 </div>
 
+                {/* Heading */}
+                <div className="mb-7">
+                    <h1 className="text-2xl font-bold tracking-tight text-text-primary">
+                        Add your company name
+                    </h1>
+
+                    <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+                        You're almost there! Enter your company name to complete your
+                        employer account registration and get started.
+                    </p>
+                </div>
+
+                {/* Input */}
                 <TextInput
                     label="Company name"
                     error={errors?.company}
@@ -111,16 +120,13 @@ const GoogleRegisterModal = () => {
                     placeholder={`e.g. ${APP.APP_NAME}`}
                 />
 
-                <button type="submit" className="btn mt-4" disabled={isPending}>
-                    {isPending ? <Loaders.Spinner className="size-2" /> : (
-                        <Fragment>
-                            Register &nbsp;
-                            <span aria-hidden="true"> →</span>
-                        </Fragment>
-                    )}
-                </button>
+                <AuthButton isPending={isPending} text="Complete registration" />
+
+                <p className="mt-4 text-center text-xs text-text-secondary">
+                    You can update your company details anytime.
+                </p>
             </form>
-        </div>
+        </Modal>
     );
 };
 
