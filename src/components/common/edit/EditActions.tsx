@@ -16,7 +16,7 @@ const EditActions = ({ handleOnSave, isLoading, subtitle, title }: Props) => {
     const [isEditing, setIsEditing] = useState(false);
 
     return (
-        <div className={`flex items-center pb-2 border-b border-border-primary ${title ? "justify-between" : "justify-end"}`}>
+        <div className={`flex items-center pb-2 border-b border-border-primary ${title ? "justify-between gap-4" : "justify-end"}`}>
             {title && (
                 <div>
                     <h5 className="font-bold text-lg text-text-primary/80">{title}</h5>

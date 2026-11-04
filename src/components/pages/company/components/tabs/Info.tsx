@@ -17,6 +17,7 @@ const Info = () => {
                 handleOnSave={() => null}
                 isLoading={false}
                 title="Company Information"
+                subtitle="Add key details about your company, including its industry, size, headquarters, and website, to help candidates learn more about your business."
             />
 
             <div className="space-y-6 my-6">
