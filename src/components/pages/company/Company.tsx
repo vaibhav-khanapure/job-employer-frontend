@@ -19,6 +19,8 @@ const Company = () => {
   const { data, error, isSuccess, isError, isFetching } = useQuery({
     queryKey: ["company-profile"],
     queryFn: () => API.get("/company/profile"),
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
   });
 
   useQueryResponseHandler({

@@ -7,7 +7,6 @@ import { FaGoogle } from "react-icons/fa";
 import toast from "@/src/lib/toast";
 import useAuthStore from "@/src/store/authStore";
 import useUserStore from "@/src/store/userStore";
-import useCompanyStore from "@/src/store/companyStore";
 import BROWSER_STORAGE from "@/src/constants/browserStorage";
 import { useRouter } from "next/navigation";
 import authAPIAction from "@/src/actions/auth/authAPIAction";
@@ -32,7 +31,7 @@ const GoogleSignInButton = () => {
                 };
 
                 if (status === 200) {
-                    const { accessToken, company, companySlug, email, name, role } = data;
+                    const { accessToken, email, name, role } = data;
 
                     if (!accessToken) {
                         toast.error("Something went wrong, please try again");
@@ -50,13 +49,6 @@ const GoogleSignInButton = () => {
                             name,
                             email,
                             role
-                        }
-                    });
-
-                    useCompanyStore.setState({
-                        company: {
-                            name: company,
-                            slug: companySlug
                         }
                     });
 

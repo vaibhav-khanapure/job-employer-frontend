@@ -10,7 +10,6 @@ import Loaders from "@/src/components/common/loaders/loaders";
 import verificationCodeValidator from "@/src/utils/validators/verificationCodeValidator";
 import useUserStore from "@/src/store/userStore";
 import useAuthStore from "@/src/store/authStore";
-import useCompanyStore from "@/src/store/companyStore";
 import CodeInput from "@/src/components/common/inputs/CodeInput";
 import BROWSER_STORAGE from "@/src/constants/browserStorage";
 import authAPIAction from "@/src/actions/auth/authAPIAction";
@@ -71,19 +70,12 @@ const RegisterConfirm = ({ email }: Props) => {
         },
         onError: (error) => toast.error(error?.errorMessage),
         onSuccess: (result) => {
-            const { accessToken, company, companySlug, email, name, role } = result?.data;
+            const { accessToken, email, name, role } = result?.data;
 
             useAuthStore.setState({
                 accessToken,
                 isAuth: true,
                 shouldRegenerateAccessToken: true
-            });
-
-            useCompanyStore.setState({
-                company: {
-                    name: company,
-                    slug: companySlug
-                },
             });
 
             useUserStore.setState({

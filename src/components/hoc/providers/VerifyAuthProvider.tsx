@@ -6,25 +6,29 @@ import BROWSER_STORAGE from "@/src/constants/browserStorage";
 import CLIENT_ENV from "@/src/constants/env/clientEnv";
 import toast from "@/src/lib/toast";
 import useAuthStore from "@/src/store/authStore";
-import useCompanyStore from "@/src/store/companyStore";
 import useUserStore from "@/src/store/userStore";
 import handleLogout from "@/src/utils/auth/handleLogout";
 import { useMutation } from "@tanstack/react-query";
 import { usePathname, useRouter } from "next/navigation";
-import { Fragment, useEffect, useRef, type ReactNode } from "react";
+import { Fragment, useEffect, useRef, useState, type ReactNode } from "react";
 
 interface Props {
     children: ReactNode;
 };
 
 const VerifyAuthProvider = ({ children }: Props) => {
+    const [isLoading, setIsLoading] = useState(true);
+
     const hasVerified = useRef(false);
     const { replace } = useRouter();
     const pathname = usePathname();
 
     const { mutate } = useMutation({
         mutationFn: () => authAPIAction("/verify", {}),
-        onSettled: () => pageLoader.close(),
+        onSettled: () => {
+            pageLoader.close();
+            setIsLoading(false);
+        },
         onError: (error) => {
             localStorage.removeItem(BROWSER_STORAGE.LOCAL.USER_SIGNED_IN);
 
@@ -33,19 +37,12 @@ const VerifyAuthProvider = ({ children }: Props) => {
             toast.error(CLIENT_ENV.APP_ENV !== "live" ? error?.errorMessage : "Session expired, please sign in again");
         },
         onSuccess: (result) => {
-            const { accessToken, company, companySlug, email, name, role } = result?.data;
+            const { accessToken, email, name, role } = result?.data;
 
             useAuthStore.setState({
                 accessToken,
                 isAuth: true,
                 shouldRegenerateAccessToken: true
-            });
-
-            useCompanyStore.setState({
-                company: {
-                    name: company,
-                    slug: companySlug
-                }
             });
 
             useUserStore.setState({
@@ -58,7 +55,7 @@ const VerifyAuthProvider = ({ children }: Props) => {
 
             localStorage.setItem(BROWSER_STORAGE.LOCAL.USER_SIGNED_IN, '1');
 
-            if (pathname === "/")  replace("/home");
+            if (pathname === "/") replace("/home");
         }
     });
 
@@ -70,7 +67,10 @@ const VerifyAuthProvider = ({ children }: Props) => {
 
             const isLoggedIn = localStorage.getItem(BROWSER_STORAGE.LOCAL.USER_SIGNED_IN);
 
-            if (!isLoggedIn) return;
+            if (!isLoggedIn) {
+                setIsLoading(false);
+                return;
+            };
 
             pageLoader.show("Verifying user");
 
@@ -82,7 +82,7 @@ const VerifyAuthProvider = ({ children }: Props) => {
 
     return (
         <Fragment>
-            {children}
+            {!isLoading && children}
         </Fragment>
     );
 };

@@ -6,7 +6,6 @@ import toast from "@/src/lib/toast";
 import useAuthStore from "@/src/store/authStore";
 import useUserStore from "@/src/store/userStore";
 import BROWSER_STORAGE from "@/src/constants/browserStorage";
-import useCompanyStore from "@/src/store/companyStore";
 import { useRouter } from "next/navigation";
 import useSchemaValidator from "@/src/hooks/validators/useSchemaValidator";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
@@ -31,19 +30,12 @@ const GoogleRegisterModal = () => {
         },
         onError: (error) => toast.error(error?.errorMessage),
         onSuccess: (result) => {
-            const { accessToken, company, companySlug, email, name, role } = result?.data;
+            const { accessToken, email, name, role } = result?.data;
 
             useAuthStore.setState({
                 accessToken,
                 isAuth: true,
                 shouldRegenerateAccessToken: true
-            });
-
-            useCompanyStore.setState({
-                company: {
-                    name: company,
-                    slug: companySlug
-                },
             });
 
             useUserStore.setState({

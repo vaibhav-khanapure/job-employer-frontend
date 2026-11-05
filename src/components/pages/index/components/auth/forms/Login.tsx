@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import TextInput from "@/src/components/common/inputs/TextInput";
 import PasswordInput from "@/src/components/common/inputs/PasswordInput";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
-import useCompanyStore from "@/src/store/companyStore";
 import BROWSER_STORAGE from "@/src/constants/browserStorage";
 import authAPIAction from "@/src/actions/auth/authAPIAction";
 import AuthButton from "../components/AuthButton";
@@ -35,7 +34,7 @@ const Login = ({ handleChangeForm }: Props) => {
         },
         onError: (error) => toast.error(error?.errorMessage),
         onSuccess: (res) => {
-            const { accessToken, company, companySlug, email, name, role } = res?.data;
+            const { accessToken, email, name, role } = res?.data;
 
             if (!accessToken) {
                 toast.error("Something went wrong, please try again");
@@ -53,13 +52,6 @@ const Login = ({ handleChangeForm }: Props) => {
                     name,
                     email,
                     role
-                }
-            });
-
-            useCompanyStore.setState({
-                company: {
-                    name: company,
-                    slug: companySlug
                 }
             });
 
