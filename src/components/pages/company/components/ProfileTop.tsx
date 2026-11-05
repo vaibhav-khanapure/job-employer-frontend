@@ -1,10 +1,25 @@
 import EditActions from "@/src/components/common/edit/EditActions";
+import CharacterCounter from "@/src/components/common/inputs/CharacterCounter";
+import { CompanyProfile } from "@/src/types/entities/company/companyProfile.types";
+import { useState } from "react";
 
-const ProfileTop = () => {
+interface Props {
+    data: CompanyProfile["profile_top"];
+};
+
+const ProfileTop = ({ data }: Props) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [profile, setProfile] = useState(data);
+
     return (
         <section className="p-6 rounded-md border border-border-primary bg-bg-primary">
             <EditActions
+                handleEditing={(opt: boolean) => {
+                    if (!opt) setProfile(data);
+                    setIsEditing(opt)
+                }}
                 handleOnSave={() => null}
+                isEditing={isEditing}
                 isLoading={false}
                 title="Company Profile"
             />
@@ -16,36 +31,54 @@ const ProfileTop = () => {
                     </div>
                 </div>
 
-                <div className="flex flex-col gap-7">
+                <div className="flex flex-col gap-4 w-full">
                     {/* Company Name */}
                     <div className="space-y-2">
-                        <span className="text-xs font-semibold uppercase tracking-[0.12em] text-text-muted">
+                        <label htmlFor="company-name" className="text-xs font-semibold uppercase tracking-[0.12em] text-text-muted">
                             Company Name
-                        </span>
+                        </label>
 
-                        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                            <h4 className="text-4xl font-bold tracking-tight text-text-primary">
-                                Jobble
-                            </h4>
+                        <input
+                            className={`input text-3xl rounded-none font-bold tracking-tight ${isEditing
+                                ? "border-0 border-b border-b-border-primary focus:border-b-secondary"
+                                : "border-0"}`
+                            }
+                            disabled={!isEditing}
+                            id="company-name"
+                            minLength={1}
+                            maxLength={500}
+                            value={profile?.name}
+                            onChange={(e) => setProfile(prev => ({ ...prev, name: e.target.value }))}
+                        />
 
-                            <span className="text-sm font-medium text-text-muted">
-                                @jobble-jsjsjjd
-                            </span>
-                        </div>
+                        {isEditing && <CharacterCounter maxLength={500} text={profile?.name} />}
                     </div>
 
                     {/* Company Tagline */}
                     <div className="space-y-3">
-                        <span className="text-xs font-semibold uppercase tracking-[0.12em] text-text-muted">
+                        <label
+                            htmlFor="company-tagline"
+                            className="text-xs font-semibold uppercase tracking-[0.12em] text-text-muted"
+                        >
                             Company Tagline
-                        </span>
+                        </label>
 
-                        <p className="max-w-2xl text-[15px] leading-7 text-text-secondary">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            Nisi natus dignissimos quis fugit quia autem omnis debitis
-                            laudantium repellendus quaerat illum, atque aliquam
-                            blanditiis quidem ipsam unde cumque cum eaque deleniti.
-                        </p>
+                        <textarea
+                            className={`input text-[15px] leading-7 resize-none field-sizing-content ${isEditing
+                                ? "border-0 border-b border-b-border-primary focus:border-b-secondary rounded-none"
+                                : "border-0"
+                                } ${!profile?.tagline ? "italic" : ""}`
+                            }
+                            id="company-tagline"
+                            disabled={!isEditing}
+                            maxLength={600}
+                            rows={1}
+                            placeholder="Add a short tagline about your company"
+                            value={profile?.tagline ?? ""}
+                            onChange={(e) => setProfile(prev => ({ ...prev, tagline: e.target.value }))}
+                        />
+
+                        {isEditing && <CharacterCounter maxLength={500} text={profile?.tagline ?? ""} />}
                     </div>
                 </div>
             </div>

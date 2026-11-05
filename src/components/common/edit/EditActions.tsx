@@ -1,20 +1,20 @@
 "use client";
 
 import { BiEdit } from "react-icons/bi";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import Loaders from "../loaders/loaders";
 import COLORS from "@/src/constants/colors";
 
 interface Props {
     handleOnSave: () => void;
+    handleEditing: (opt: boolean) => void;
+    isEditing: boolean;
     isLoading: boolean;
     subtitle?: string;
     title?: string;
 };
 
-const EditActions = ({ handleOnSave, isLoading, subtitle, title }: Props) => {
-    const [isEditing, setIsEditing] = useState(false);
-
+const EditActions = ({ handleOnSave, handleEditing, isEditing, isLoading, subtitle, title }: Props) => {
     return (
         <div className={`flex items-center pb-2 border-b border-border-primary ${title ? "justify-between gap-4" : "justify-end"}`}>
             {title && (
@@ -36,7 +36,7 @@ const EditActions = ({ handleOnSave, isLoading, subtitle, title }: Props) => {
                             </button>
                             <button
                                 className="btn text-text-primary text-xs bg-bg-secondary transition duration-200 hover:-translate-y-1"
-                                onClick={() => setIsEditing(false)}
+                                onClick={() => handleEditing(false)}
                             >
                                 Cancel
                             </button>
@@ -44,7 +44,7 @@ const EditActions = ({ handleOnSave, isLoading, subtitle, title }: Props) => {
                     ) : (
                         <button
                             className="size-10 rounded-full grid place-items-center hover:bg-bg-secondary"
-                            onClick={() => setIsEditing(true)}
+                            onClick={() => handleEditing(true)}
                         >
                             <BiEdit size={20} />
                         </button>

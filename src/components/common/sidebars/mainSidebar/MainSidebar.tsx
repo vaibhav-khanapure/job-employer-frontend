@@ -2,22 +2,13 @@
 
 import { usePathname } from "next/navigation";
 import NavLink from "./components/NavLink";
-import APP from "@/src/constants/app";
 import navLinks from "./data/links";
 
 const MainSidebar = () => {
     const pathname = usePathname();
 
     return (
-        <aside className="flex flex-col w-64 h-screen sticky top-0 bg-bg-primary border-r border-border-primary">
-
-            {/* Brand */}
-            <div className="flex items-center h-16 px-6 border-b border-border-primary">
-                <h2 className="text-[23px] font-bold tracking-tight text-text-primary">
-                    {APP.APP_NAME}
-                    <span className="text-text-primary">.</span>
-                </h2>
-            </div>
+        <aside className="flex flex-col w-64 h-[calc(100vh-64px)] sticky top-0 bg-bg-primary border-r border-border-primary">
 
             {/* Navigation */}
             <nav className="flex flex-col gap-7 px-3 pt-5 h-[calc(100vh-64px)] overflow-y-auto">
