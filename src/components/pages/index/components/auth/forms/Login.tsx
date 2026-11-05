@@ -2,7 +2,7 @@ import { type SubmitEvent, useState } from "react";
 import type { AuthFormType } from "../../../types/auth.types";
 import { useMutation } from "@tanstack/react-query";
 import toast from "@/src/lib/toast";
-import useSchemaValidator from "@/src/hooks/useSchemaValidator";
+import useSchemaValidator from "@/src/hooks/validators/useSchemaValidator";
 import useAuthStore from "@/src/store/authStore";
 import useUserStore from "@/src/store/userStore";
 import { useRouter } from "next/navigation";

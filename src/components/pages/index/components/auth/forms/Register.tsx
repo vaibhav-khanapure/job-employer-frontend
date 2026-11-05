@@ -1,5 +1,5 @@
 import { type SubmitEvent, useState } from "react";
-import useSchemaValidator from "@/src/hooks/useSchemaValidator";
+import useSchemaValidator from "@/src/hooks/validators/useSchemaValidator";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
 import { useMutation } from "@tanstack/react-query";
 import API from "@/src/lib/API";

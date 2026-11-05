@@ -1,8 +1,8 @@
 import { z } from "zod";
 import companySchema from "../common/companySchema";
 
-const forgotPasswordSchema = z.object({
+const googleAuthRegisterSchema = z.object({
     company: companySchema
 });
 
-export default forgotPasswordSchema;
+export default googleAuthRegisterSchema;

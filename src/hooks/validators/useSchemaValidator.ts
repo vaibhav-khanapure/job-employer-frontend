@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { ZodType } from "zod";
-import schemaValidator from "../utils/validators/schemaValidator";
+import schemaValidator from "../../utils/validators/schemaValidator";
 
 const useSchemaValidator = <T>(schema: ZodType<T>, values: unknown) => {
     const [errors, setErrors] = useState<Record<string, string> | null>(null);

@@ -1,5 +1,5 @@
-import googleAuthRegisterSchema from "../api/auth/googleAuthRegisterSchema";
 import forgotPasswordSchema from "./forgotPasswordSchema";
+import googleAuthRegisterSchema from "./googleAuthRegisterSchema";
 import loginSchema from "./loginSchema";
 import registerConfirmSchema from "./registerConfirmSchema";
 import registerSchema from "./registerSchema";

@@ -5,11 +5,10 @@ import { type SubmitEvent, useState } from "react";
 import toast from "@/src/lib/toast";
 import useAuthStore from "@/src/store/authStore";
 import useUserStore from "@/src/store/userStore";
-import { IoCloseOutline } from "react-icons/io5";
 import BROWSER_STORAGE from "@/src/constants/browserStorage";
 import useCompanyStore from "@/src/store/companyStore";
 import { useRouter } from "next/navigation";
-import useSchemaValidator from "@/src/hooks/useSchemaValidator";
+import useSchemaValidator from "@/src/hooks/validators/useSchemaValidator";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
 import authAPIAction from "@/src/actions/auth/authAPIAction";
 import { LuBuilding2 } from "react-icons/lu";
@@ -64,7 +63,7 @@ const GoogleRegisterModal = () => {
     });
 
     const handleClose = () => {
-        toast.info("Registration process aborted");
+        toast.warning("Registration process aborted");
         useAuthStore.setState({ showGoogleRegisterModal: false });
     };
 
@@ -81,8 +80,8 @@ const GoogleRegisterModal = () => {
     };
 
     return (
-        <Modal>
-            <form onSubmit={handleSubmit}>
+        <Modal handleClose={handleClose}>
+            <form className="space-y-3" onSubmit={handleSubmit}>
                 {/* Header icon */}
                 <div className="mb-6 grid size-14 place-items-center rounded-2xl border border-border-primary text-text-tertiary">
                     <LuBuilding2 size={24} />

@@ -1,6 +1,6 @@
 import { type SubmitEvent, useState } from "react";
 import type { AuthFormType } from "../../../types/auth.types";
-import useSchemaValidator from "@/src/hooks/useSchemaValidator";
+import useSchemaValidator from "@/src/hooks/validators/useSchemaValidator";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
 import API from "@/src/lib/API";
 import { useMutation } from "@tanstack/react-query";

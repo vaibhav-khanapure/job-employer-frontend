@@ -1,4 +1,4 @@
-import useSchemaValidator from "@/src/hooks/useSchemaValidator";
+import useSchemaValidator from "@/src/hooks/validators/useSchemaValidator";
 import API from "@/src/lib/API";
 import toast from "@/src/lib/toast";
 import validationSchemas from "@/src/validationSchemas/validationSchema";

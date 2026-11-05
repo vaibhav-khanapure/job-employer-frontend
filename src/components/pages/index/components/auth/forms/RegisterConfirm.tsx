@@ -1,7 +1,7 @@
 import type { ChangeEvent, ClipboardEvent, KeyboardEvent, SubmitEvent } from "react";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import useSchemaValidator from "@/src/hooks/useSchemaValidator";
+import useSchemaValidator from "@/src/hooks/validators/useSchemaValidator";
 import validationSchemas from "@/src/validationSchemas/validationSchema";
 import { useMutation } from "@tanstack/react-query";
 import API from "@/src/lib/API";

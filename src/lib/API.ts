@@ -2,7 +2,6 @@ import axios from "axios";
 import useAuthStore from "../store/authStore";
 import CLIENT_ENV from "../constants/env/clientEnv";
 import handleLogout from "../utils/auth/handleLogout";
-import toast from "./toast";
 
 const API = axios.create({
     baseURL: CLIENT_ENV.API_URL,

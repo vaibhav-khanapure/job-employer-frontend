@@ -3,8 +3,11 @@ import NoContent from "../NoContent";
 import NoContentButton from "../buttons/NoContentButton";
 import { MdOutlineShare } from "react-icons/md";
 import SocialMediaModal from "../modals/SocialMediaModal";
+import { useState } from "react";
 
 const SocialMedias = () => {
+    const [showSocialMediaAddModal, setShowSocialMediaAddModal] = useState(false);
+
     return (
         <section>
             <EditActions
@@ -18,10 +21,12 @@ const SocialMedias = () => {
                 icon={<MdOutlineShare size={24} />}
                 title="Connect your social media profiles"
                 subtitle="Showcase your company's online presence by adding links to your LinkedIn, Instagram, Facebook, and other social media profiles."
-                action={<NoContentButton text="Add social media profiles" onClick={() => { }} />}
+                action={<NoContentButton text="Add social media profiles" onClick={() => setShowSocialMediaAddModal(true)} />}
             />
 
-            <SocialMediaModal />
+            {showSocialMediaAddModal && <SocialMediaModal
+                handleClose={() => setShowSocialMediaAddModal(false)}
+            />}
         </section>
     );
 };
