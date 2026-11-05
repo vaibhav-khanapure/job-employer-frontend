@@ -8,15 +8,15 @@ interface Props {
 
 const Layout = ({ children }: Props) => {
     return (
-        <main className="">
+        <main>
             <Topbar />
 
-            <div className="flex-1 container bg-bg-secondary">
+            <div className="flex flex-1 bg-bg-secondary">
                 <MainSidebar />
                 {/* <Topbar /> */}
-                {/* <div className="p-6">
+                <div className="p-6">
                     {children}
-                </div> */}
+                </div>
             </div>
         </main>
     );

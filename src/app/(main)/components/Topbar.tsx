@@ -8,7 +8,7 @@ const Topbar = () => {
     const currentPage = pathname.split("/")?.at(-1);
 
     return (
-        <header className="bg-bg-primary">
+        <header className="sticky top-0 z-1 bg-bg-primary">
             <div className="container h-16 flex items-center border-b border-border-primary">
 
                 <div className="flex items-center h-16 w-64 px-6 border-r border-border-primary">

@@ -8,7 +8,7 @@ const MainSidebar = () => {
     const pathname = usePathname();
 
     return (
-        <aside className="flex flex-col w-64 h-[calc(100vh-64px)] sticky top-0 bg-bg-primary border-r border-border-primary">
+        <aside className="flex flex-col w-64 h-[calc(100vh-64px)] sticky top-16 bg-bg-primary border-r border-border-primary">
 
             {/* Navigation */}
             <nav className="flex flex-col gap-7 px-3 pt-5 h-[calc(100vh-64px)] overflow-y-auto">
