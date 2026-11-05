@@ -9,7 +9,9 @@ import PageLoader from "../components/common/loaders/PageLoader";
 const googleSans = Google_Sans({
   variable: "--font-google-sans",
   subsets: ["latin"],
-  display: "swap"
+  display: "swap",
+  fallback: ["Arial", "sans-serif"],
+  adjustFontFallback: false,
 });
 
 export const metadata: Metadata = {
