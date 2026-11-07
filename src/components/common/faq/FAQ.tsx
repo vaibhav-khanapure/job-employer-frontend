@@ -45,7 +45,7 @@ const FAQ = ({ faqs = [], tag, subtitle, title }: Props) => {
                     })}
                 >
                     <div className="p-4 flex items-center justify-between cursor-pointer hover:bg-bg-secondary">
-                        <h5 className="text-[15px] sm:text-base font-semibold tracking-tight text-text-primary leading-6">
+                        <h5 className="text-[15px] sm:text-base font-medium tracking-tight text-text-primary leading-6">
                             {faq?.question}
                         </h5>
                         <GoPlus

@@ -27,7 +27,7 @@ const MainFooter = () => {
                     </div>
 
                     {/* Navigation */}
-                    <nav className="flex-1 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-x-8 gap-y-12">
+                    <nav className="flex-1 grid grid-cols-1 min-[340px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-8 gap-y-12">
                         {links?.map((link) => (
                             <div key={`main-footer-link-${link?.title}`}>
                                 <h6 className="font-semibold mb-6 uppercase text-[11px] tracking-[0.14em] text-text-primary">
@@ -50,7 +50,7 @@ const MainFooter = () => {
                     </nav>
                 </div>
 
-                <div className="flex items-center gap-4 pb-2 mt-4">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4 pb-2 mt-4">
                     <h2 className="text-text-muted">
                         follow us on social media:
                     </h2>
