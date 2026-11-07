@@ -69,7 +69,7 @@ const Register = ({ handleChangeForm, handleUpdateEmail }: Props) => {
                 label="Email Address"
                 error={errors?.email}
                 autoComplete="email"
-                placeholder="you@gmail.com"
+                placeholder={`e.g. ${APP.SUPPORT_MAIL}`}
                 required
                 value={user?.email}
                 type="email"

@@ -1,7 +1,12 @@
 import EditActions from "@/src/components/common/edit/EditActions";
 import CharacterCounter from "@/src/components/common/inputs/CharacterCounter";
+import API from "@/src/lib/API";
+import toast from "@/src/lib/toast";
 import { CompanyProfile } from "@/src/types/entities/company/companyProfile.types";
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import CompanyLogo from "./profileTop/CompanyLogo";
+import ConfirmLogoDeleteModal from "./modals/ConfirmLogoDeleteModal";
 
 interface Props {
     data: CompanyProfile["profile_top"];
@@ -10,26 +15,66 @@ interface Props {
 const ProfileTop = ({ data }: Props) => {
     const [isEditing, setIsEditing] = useState(false);
     const [profile, setProfile] = useState(data);
+    const [showRemoveLogoModal, setShowRemoveConfirmLogoModal] = useState(false);
+
+    useEffect(() => {
+        return () => {
+            if (profile?.logo_url?.startsWith("blob:")) {
+                URL.revokeObjectURL(profile.logo_url);
+            };
+        };
+    }, [profile?.logo_url]);
+
+    const { } = useMutation({
+
+    });
+
+    const { isPending, mutate } = useMutation({
+        mutationFn: (data: Partial<CompanyProfile["profile_top"]>) => API.patch('/company', data),
+        onSuccess: () => {
+            toast.success('Profile updated successfully');
+            setIsEditing(false);
+        },
+        onError: (error) => toast.error(error?.errorMessage),
+        onSettled: () => setIsEditing(false)
+    });
+
+    const handleRemoveLogo = async () => {
+        if (!data?.logo_url) {
+            return setProfile(prev => ({ ...prev, logo_url: data?.logo_url }));
+        };
+
+        setShowRemoveConfirmLogoModal(true);
+    };
 
     return (
         <section className="p-6 rounded-md border border-border-primary bg-bg-primary">
             <EditActions
-                handleEditing={(opt: boolean) => {
-                    if (!opt) setProfile(data);
-                    setIsEditing(opt)
-                }}
                 handleOnSave={() => null}
                 isEditing={isEditing}
                 isLoading={false}
                 title="Company Profile"
+                handleEditing={(opt: boolean) => {
+                    if (!opt) setProfile(data);
+                    setIsEditing(opt)
+                }}
             />
 
+            {showRemoveLogoModal && (
+                <ConfirmLogoDeleteModal
+                    handleClose={() => setShowRemoveConfirmLogoModal(false)}
+                    handleUpdateLogo={() => setProfile(prev => ({ ...prev, logo_url: null }))}
+                />
+            )}
+
             <div className="flex gap-4 mt-6">
-                <div>
-                    <div className="h-44 w-44 rounded-lg grid place-items-center bg-bg-primary border-2 border-dashed border-border-primary">
-                        <span className="text-center text-sm font-medium text-text-tertiary">Company Logo</span>
-                    </div>
-                </div>
+
+                <CompanyLogo
+                    handleRemoveLogo={handleRemoveLogo}
+                    logo_url={profile?.logo_url}
+                    isEditing={isEditing}
+                    handleSetLogo={(img: string) => setProfile(prev => ({ ...prev, logo_url: img }))}
+                />
 
                 <div className="flex flex-col gap-4 w-full">
                     {/* Company Name */}
@@ -81,7 +126,7 @@ const ProfileTop = ({ data }: Props) => {
                         {isEditing && <CharacterCounter maxLength={500} text={profile?.tagline ?? ""} />}
                     </div>
                 </div>
-            </div>
+            </div >
 
         </section>
     );

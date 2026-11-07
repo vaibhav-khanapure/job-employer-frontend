@@ -6,7 +6,7 @@
 
   --brand-primary: oklch(21% 0.006 285.885);
   --brand-error: #DC2626;
-  --brand-bg-primary: #fff;
+  --brand-bg-primary: #ffffff;
   --brand-bg-secondary: #f4f2ee;
 
   /* --brand-primary: #2563eb; */
@@ -81,7 +81,7 @@ button:disabled {
   }
 
   .label {
-    @apply text-sm font-medium text-gray-700;
+    @apply text-sm text-text-primary;
   }
 }
 

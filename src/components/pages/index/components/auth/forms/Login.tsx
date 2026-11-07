@@ -12,6 +12,7 @@ import validationSchemas from "@/src/validationSchemas/validationSchema";
 import BROWSER_STORAGE from "@/src/constants/browserStorage";
 import authAPIAction from "@/src/actions/auth/authAPIAction";
 import AuthButton from "../components/AuthButton";
+import APP from "@/src/constants/app";
 
 interface Props {
     handleChangeForm: (type: AuthFormType) => void;
@@ -82,7 +83,7 @@ const Login = ({ handleChangeForm }: Props) => {
                 label="Email Address"
                 error={errors?.email}
                 autoComplete="email"
-                placeholder="you@gmail.com"
+                placeholder={`e.g. ${APP.SUPPORT_MAIL}`}
                 required
                 value={user?.email}
                 type="email"

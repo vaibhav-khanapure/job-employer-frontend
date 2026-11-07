@@ -12,7 +12,7 @@ const AuthButton = ({ isPending, text }: Props) => {
             {isPending ? <Loaders.Spinner className="size-2" /> : (
                 <Fragment>
                     {text} &nbsp;
-                    <span aria-hidden="true"> →</span>
+                    {/* <span aria-hidden="true"> →</span> */}
                 </Fragment>
             )}
         </button>

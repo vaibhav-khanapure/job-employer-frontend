@@ -5,6 +5,7 @@ import APP from "../constants/app";
 import AppProviders from "../components/hoc/providers/AppProviders";
 import Toast from "../components/common/toast/Toast";
 import PageLoader from "../components/common/loaders/PageLoader";
+import MainFooter from "../components/common/footers/mainFooter/MainFooter";
 
 const googleSans = Google_Sans({
   variable: "--font-google-sans",
@@ -29,6 +30,8 @@ const RootLayout = ({ children }: LayoutProps<"/">) => {
         <AppProviders>
           {children}
         </AppProviders>
+
+        <MainFooter />
       </body>
     </html>
   );

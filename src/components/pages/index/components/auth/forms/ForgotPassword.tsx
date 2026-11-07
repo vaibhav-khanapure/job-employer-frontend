@@ -7,6 +7,7 @@ import { type SubmitEvent, useState } from "react";
 import type { AuthFormType } from "../../../types/auth.types";
 import TextInput from "@/src/components/common/inputs/TextInput";
 import AuthButton from "../components/AuthButton";
+import APP from "@/src/constants/app";
 
 interface Props {
     handleChangeForm: (type: AuthFormType) => void;
@@ -50,7 +51,7 @@ const ForgotPassword = ({ handleChangeForm, handleUpdateEmail }: Props) => {
                 label="Email Address"
                 error={errors?.email}
                 autoComplete="email"
-                placeholder="you@gmail.com"
+                placeholder={`e.g. ${APP.SUPPORT_MAIL}`}
                 required
                 value={email}
                 type="email"

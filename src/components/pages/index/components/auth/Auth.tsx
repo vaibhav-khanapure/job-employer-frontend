@@ -31,7 +31,7 @@ const Auth = () => {
     };
 
     return (
-        <div className="p-6 py-8 max-w-100 rounded-lg shadow-sm">
+        <div className="p-6 py-8 max-w-100 rounded-lg shadow-sm bg-bg-primary">
 
             {["forgot-password", "register-confirm"].includes(formType) && (
                 <div
