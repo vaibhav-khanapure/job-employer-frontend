@@ -22,13 +22,13 @@ const Reviews = () => {
                     {[0, 1].map((group) => (
                         <div
                             key={group}
-                            className="flex shrink-0 gap-6 pr-6"
+                            className="flex shrink-0 gap-6 py-6 pr-6"
                             aria-hidden={group === 1}
                         >
                             {reviews.map((review, index) => (
                                 <div
                                     key={`home-reviews-${group}-${index}`}
-                                    className="w-80 shrink-0 rounded-xl border border-border-primary bg-bg-primary p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+                                    className="w-80 shrink-0 rounded-xl border border-border-primary bg-bg-primary p-6 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
                                 >
                                     <div className='mb-5 pb-5 space-y-2 border-b border-border-primary'>
                                         <h4 className='text-lg font-bold tracking-tight text-text-primary'>
